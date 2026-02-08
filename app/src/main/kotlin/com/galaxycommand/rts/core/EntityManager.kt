@@ -4,6 +4,7 @@ import com.galaxycommand.rts.entities.Building
 import com.galaxycommand.rts.entities.Entity
 import com.galaxycommand.rts.entities.Resource
 import com.galaxycommand.rts.entities.Unit
+import com.galaxycommand.rts.factions.FactionType
 import java.util.concurrent.ConcurrentHashMap
 
 /**

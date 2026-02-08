@@ -72,6 +72,13 @@ class Camera(
     }
 
     /**
+     * Resize viewport (alias for setViewportSize)
+     */
+    fun resize(width: Int, height: Int) {
+        setViewportSize(width, height)
+    }
+
+    /**
      * Convert screen coordinates to world coordinates
      */
     fun screenToWorld(screenX: Float, screenY: Float): Vector2 {

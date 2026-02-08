@@ -110,7 +110,8 @@ class GameEngine private constructor() {
         initialize(playerFaction, mapSeed, difficulty)
         
         // Initialize camera
-        camera = Camera(screenWidth, screenHeight, MAP_WIDTH, MAP_HEIGHT)
+        camera = Camera(MAP_WIDTH, MAP_HEIGHT)
+        camera.setViewportSize(screenWidth, screenHeight)
         
         // Initialize HUD
         hudManager = HUDManager(gameMap, gameState, camera, entityManager)
@@ -152,6 +153,10 @@ class GameEngine private constructor() {
     }
 
     private fun createBase(faction: Faction, position: Vector2, playerType: PlayerType) {
+        // Add player to game state first to get player ID
+        val playerId = (gameState.players.size + 1).toLong()
+        gameState.addPlayer(faction.factionType, playerType, position)
+
         // Create main base building
         val baseBuilding = faction.createBaseBuilding(position)
         addEntity(baseBuilding)
@@ -160,7 +165,7 @@ class GameEngine private constructor() {
         // Create initial workers
         for (i in 0 until 4) {
             val workerPos = position + Vector2.new(100f + i * 30f, (i % 2) * 60f - 30f)
-            val worker = faction.createWorker(workerPos, playerType)
+            val worker = faction.createWorker(workerPos, playerId, playerType)
             addEntity(worker)
             units[worker.id] = worker
         }
@@ -168,12 +173,10 @@ class GameEngine private constructor() {
         // Create initial combat units
         for (i in 0 until 2) {
             val unitPos = position + Vector2.new(150f + i * 40f, (i % 2) * 80f - 40f)
-            val combatUnit = faction.createCombatUnit(unitPos, playerType)
+            val combatUnit = faction.createCombatUnit(unitPos, playerId, playerType)
             addEntity(combatUnit)
             units[combatUnit.id] = combatUnit
         }
-
-        gameState.addPlayer(faction.factionType, playerType, position)
     }
 
     private fun generateMineralFields(random: java.util.Random) {
