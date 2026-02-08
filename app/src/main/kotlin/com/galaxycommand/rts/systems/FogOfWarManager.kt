@@ -156,7 +156,7 @@ class FogOfWarManager {
 
         for (x in minTileX..maxTileX) {
             for (y in minTileY..maxTileY) {
-                val tileCenter = Vector2(
+                val tileCenter = Vector2.new(
                     x * GRID_SIZE + GRID_SIZE / 2,
                     y * GRID_SIZE + GRID_SIZE / 2
                 )

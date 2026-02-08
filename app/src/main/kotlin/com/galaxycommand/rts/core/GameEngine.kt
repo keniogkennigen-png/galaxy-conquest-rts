@@ -135,13 +135,13 @@ class GameEngine private constructor() {
 
         // Create player base
         val playerFaction = Faction.createFaction(gameState.playerFaction)
-        val playerBasePos = Vector2(200f, MAP_HEIGHT / 2)
+        val playerBasePos = Vector2.new(200f, MAP_HEIGHT / 2)
         createBase(playerFaction, playerBasePos, PlayerType.HUMAN)
 
         // Create enemy base (opposite side)
         val enemyFactionType = getEnemyFaction(gameState.playerFaction)
         val enemyFaction = Faction.createFaction(enemyFactionType)
-        val enemyBasePos = Vector2(MAP_WIDTH - 200f, MAP_HEIGHT / 2)
+        val enemyBasePos = Vector2.new(MAP_WIDTH - 200f, MAP_HEIGHT / 2)
         createBase(enemyFaction, enemyBasePos, PlayerType.AI)
 
         // Generate mineral fields
@@ -159,7 +159,7 @@ class GameEngine private constructor() {
 
         // Create initial workers
         for (i in 0 until 4) {
-            val workerPos = position + Vector2(100f + i * 30f, (i % 2) * 60f - 30f)
+            val workerPos = position + Vector2.new(100f + i * 30f, (i % 2) * 60f - 30f)
             val worker = faction.createWorker(workerPos, playerType)
             addEntity(worker)
             units[worker.id] = worker
@@ -167,7 +167,7 @@ class GameEngine private constructor() {
 
         // Create initial combat units
         for (i in 0 until 2) {
-            val unitPos = position + Vector2(150f + i * 40f, (i % 2) * 80f - 40f)
+            val unitPos = position + Vector2.new(150f + i * 40f, (i % 2) * 80f - 40f)
             val combatUnit = faction.createCombatUnit(unitPos, playerType)
             addEntity(combatUnit)
             units[combatUnit.id] = combatUnit
@@ -178,19 +178,19 @@ class GameEngine private constructor() {
 
     private fun generateMineralFields(random: java.util.Random) {
         // Player mineral field
-        addMineralField(Vector2(400f, MAP_HEIGHT / 2), 1000)
-        addMineralField(Vector2(400f, MAP_HEIGHT / 2 + 100), 1000)
+        addMineralField(Vector2.new(400f, MAP_HEIGHT / 2), 1000)
+        addMineralField(Vector2.new(400f, MAP_HEIGHT / 2 + 100), 1000)
 
         // Enemy mineral field
-        addMineralField(Vector2(MAP_WIDTH - 400f, MAP_HEIGHT / 2), 1000)
-        addMineralField(Vector2(MAP_WIDTH - 400f, MAP_HEIGHT / 2 - 100), 1000)
+        addMineralField(Vector2.new(MAP_WIDTH - 400f, MAP_HEIGHT / 2), 1000)
+        addMineralField(Vector2.new(MAP_WIDTH - 400f, MAP_HEIGHT / 2 - 100), 1000)
 
         // Neutral mineral fields in middle
         for (i in 0 until 3) {
             for (j in 0 until 2) {
                 val x = MAP_WIDTH / 2 - 150 + i * 150 + random.nextFloat() * 50
                 val y = MAP_HEIGHT / 2 - 100 + j * 200 + random.nextFloat() * 50
-                addMineralField(Vector2(x, y), 800 + random.nextInt(400))
+                addMineralField(Vector2.new(x, y), 800 + random.nextInt(400))
             }
         }
     }
@@ -625,7 +625,7 @@ class GameEngine private constructor() {
     /**
      * Get game map dimensions
      */
-    fun getMapSize(): Vector2 = Vector2(MAP_WIDTH, MAP_HEIGHT)
+    fun getMapSize(): Vector2 = Vector2.new(MAP_WIDTH, MAP_HEIGHT)
 
     /**
      * Get the entity manager

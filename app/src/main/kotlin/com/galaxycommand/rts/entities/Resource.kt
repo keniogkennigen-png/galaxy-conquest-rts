@@ -99,7 +99,7 @@ data class Resource(
             return Resource(
                 id = parts[0].toLong(),
                 type = parts[1],
-                position = Vector2(parts[2].toFloat(), parts[3].toFloat()),
+                position = Vector2.new(parts[2].toFloat(), parts[3].toFloat()),
                 amount = parts[4].toInt(),
                 maxAmount = parts[5].toInt()
             )

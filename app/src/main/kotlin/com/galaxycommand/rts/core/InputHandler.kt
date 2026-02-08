@@ -109,7 +109,7 @@ class InputHandler(
         if (primaryPointerId == -1) {
             primaryPointerId = pointerId
             camera.onTouchDown(x, y)
-            selectionStart = Vector2(x, y)
+            selectionStart = Vector2.new(x, y)
             isSelecting = false
             selectedUnits.clear()
         } else if (secondaryPointerId == -1) {
@@ -150,7 +150,7 @@ class InputHandler(
                     if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
                         isSelecting = true
                         callback.onSelectionStart(selectionStart)
-                        callback.onSelectionUpdate(selectionStart, Vector2(x, y))
+                        callback.onSelectionUpdate(selectionStart, Vector2.new(x, y))
                     }
                 }
 
@@ -190,7 +190,7 @@ class InputHandler(
                 // Selection ended
                 val pointer = activePointers.values.firstOrNull()
                 if (pointer != null) {
-                    val screenEnd = Vector2(pointer.x, pointer.y)
+                    val screenEnd = Vector2.new(pointer.x, pointer.y)
                     finishSelection(selectionStart, screenEnd)
                 }
             }
@@ -237,7 +237,7 @@ class InputHandler(
     private fun handleTap(worldPosition: Vector2, screenStartX: Float, screenStartY: Float) {
         val currentTime = System.currentTimeMillis()
         val distFromLastTap = Vector2.distance(
-            Vector2(screenStartX, screenStartY),
+            Vector2.new(screenStartX, screenStartY),
             lastTapPosition
         )
 
@@ -248,7 +248,7 @@ class InputHandler(
         } else {
             callback.onSingleTap(worldPosition)
             lastTapTime = currentTime
-            lastTapPosition = Vector2(screenStartX, screenStartY)
+            lastTapPosition = Vector2.new(screenStartX, screenStartY)
         }
     }
 
@@ -293,7 +293,7 @@ class InputHandler(
      */
     fun getSelectionRect(): Pair<Vector2, Vector2>? {
         return if (isSelecting) {
-            Pair(selectionStart, Vector2(
+            Pair(selectionStart, Vector2.new(
                 activePointers[primaryPointerId]?.x ?: selectionStart.x,
                 activePointers[primaryPointerId]?.y ?: selectionStart.y
             ))

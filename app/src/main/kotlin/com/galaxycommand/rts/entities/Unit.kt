@@ -299,7 +299,7 @@ data class Unit(
             return Unit(
                 id = parts[0].toLong(),
                 type = parts[1],
-                position = Vector2(parts[2].toFloat(), parts[3].toFloat()),
+                position = Vector2.new(parts[2].toFloat(), parts[3].toFloat()),
                 ownerId = parts[4].toLong(),
                 health = parts[5].toFloat(),
                 maxHealth = parts[6].toFloat(),

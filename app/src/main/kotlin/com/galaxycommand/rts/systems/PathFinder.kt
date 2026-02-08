@@ -383,7 +383,7 @@ class PathFinder {
      * Convert grid cell to world position
      */
     fun gridToWorld(x: Int, y: Int): Vector2 {
-        return Vector2(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2)
+        return Vector2.new(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2)
     }
 
     /**

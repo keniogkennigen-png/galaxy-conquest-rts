@@ -280,7 +280,7 @@ class AIEngine {
         // Find enemy base position
         val enemyBase = engine.getGameState().getAIPlayers().firstOrNull()?.basePosition
             ?: engine.getGameState().getCurrentPlayer()?.basePosition
-            ?: Vector2(100f, 100f)
+            ?: Vector2.new(100f, 100f)
 
         // Issue move command to enemy base
         combatUnits.forEach { unit ->

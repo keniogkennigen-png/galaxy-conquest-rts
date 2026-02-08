@@ -45,7 +45,7 @@ data class Building(
 
     // Special properties
     var spawnPoint: Vector2 = position,
-    var rallyPoint: Vector2 = position + Vector2(100f, 0f),
+    var rallyPoint: Vector2 = position + Vector2.new(100f, 0f),
 
     // Faction
     var faction: FactionType = FactionType.VANGUARD,
@@ -343,7 +343,7 @@ data class Building(
             return Building(
                 id = parts[0].toLong(),
                 type = parts[1],
-                position = Vector2(parts[2].toFloat(), parts[3].toFloat()),
+                position = Vector2.new(parts[2].toFloat(), parts[3].toFloat()),
                 ownerId = parts[4].toLong(),
                 health = parts[5].toFloat(),
                 maxHealth = parts[6].toFloat(),
@@ -366,7 +366,7 @@ data class Building(
                     width = 160f,
                     height = 120f,
                     buildingType = BuildingType.BASE,
-                    spawnPoint = position + Vector2(0f, 80f),
+                    spawnPoint = position + Vector2.new(0f, 80f),
                     faction = faction,
                     radius = 80f,
                     maxStorage = 500
@@ -380,7 +380,7 @@ data class Building(
                     width = 140f,
                     height = 120f,
                     buildingType = BuildingType.BASE,
-                    spawnPoint = position + Vector2(0f, 80f),
+                    spawnPoint = position + Vector2.new(0f, 80f),
                     faction = faction,
                     radius = 70f,
                     maxStorage = 400
@@ -396,7 +396,7 @@ data class Building(
                     width = 120f,
                     height = 100f,
                     buildingType = BuildingType.BASE,
-                    spawnPoint = position + Vector2(0f, 70f),
+                    spawnPoint = position + Vector2.new(0f, 70f),
                     faction = faction,
                     radius = 60f,
                     maxStorage = 400
@@ -419,7 +419,7 @@ data class Building(
                     width = 120f,
                     height = 100f,
                     buildingType = BuildingType.PRODUCTION,
-                    spawnPoint = position + Vector2(0f, 60f),
+                    spawnPoint = position + Vector2.new(0f, 60f),
                     faction = faction,
                     radius = 60f
                 )
@@ -433,7 +433,7 @@ data class Building(
                     width = 100f,
                     height = 90f,
                     buildingType = BuildingType.PRODUCTION,
-                    spawnPoint = position + Vector2(0f, 60f),
+                    spawnPoint = position + Vector2.new(0f, 60f),
                     faction = faction,
                     radius = 50f
                 )
@@ -449,7 +449,7 @@ data class Building(
                     width = 110f,
                     height = 90f,
                     buildingType = BuildingType.PRODUCTION,
-                    spawnPoint = position + Vector2(0f, 60f),
+                    spawnPoint = position + Vector2.new(0f, 60f),
                     faction = faction,
                     radius = 55f
                 )
