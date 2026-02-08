@@ -151,7 +151,7 @@ object MapManager {
         val spawnPoints = listOf(
             SpawnPoint(FactionType.VANGUARD, 8f, 32f),
             SpawnPoint(FactionType.SWARM, 56f, 32f),
-            SpawnPoint(FactionType.SYNOD, 32f, 8f)
+            SpawnPoint(FactionType.SYNODE, 32f, 8f)
         )
         
         return GameMap(
@@ -202,7 +202,7 @@ object MapManager {
         val spawnPoints = listOf(
             SpawnPoint(FactionType.VANGUARD, 12f, 12f),
             SpawnPoint(FactionType.SWARM, 68f, 68f),
-            SpawnPoint(FactionType.SYNOD, 68f, 12f)
+            SpawnPoint(FactionType.SYNODE, 68f, 12f)
         )
         
         return GameMap(
@@ -248,7 +248,7 @@ object MapManager {
         val spawnPoints = listOf(
             SpawnPoint(FactionType.VANGUARD, 6f, 24f),
             SpawnPoint(FactionType.SWARM, 42f, 24f),
-            SpawnPoint(FactionType.SYNOD, 24f, 6f)
+            SpawnPoint(FactionType.SYNODE, 24f, 6f)
         )
         
         return GameMap(

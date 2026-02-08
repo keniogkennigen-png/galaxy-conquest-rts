@@ -51,7 +51,7 @@ data class Vector2(
          * Get direction from a to b
          */
         fun direction(from: Vector2, to: Vector2): Vector2 {
-            return (to - from).normalize()
+            return (to - from).normalized()
         }
 
         /**
@@ -246,6 +246,14 @@ data class Vector2(
             x /= len
             y /= len
         }
+    }
+
+    /**
+     * Get normalized copy of vector
+     */
+    fun normalized(): Vector2 {
+        val len = length
+        return if (len > 0) Vector2(x / len, y / len) else Vector2.ZERO
     }
 
     /**

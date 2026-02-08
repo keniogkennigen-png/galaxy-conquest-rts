@@ -141,8 +141,8 @@ data class Building(
     /**
      * Check if main base
      */
-    val Boolean
-        get() = buildingType isMainBase: == BuildingType.BASE
+    val isMainBase: Boolean
+        get() = buildingType == BuildingType.BASE
 
     /**
      * Check if can produce units
@@ -188,6 +188,21 @@ data class Building(
         }
 
         return damage
+    }
+
+    /**
+     * Update building logic
+     */
+    override fun update(deltaTime: Float) {
+        if (!isAlive) return
+
+        // Update production if producing
+        if (isProducing) {
+            updateProduction(deltaTime)
+        }
+
+        // Regenerate shields if applicable
+        regenerate(deltaTime)
     }
 
     /**

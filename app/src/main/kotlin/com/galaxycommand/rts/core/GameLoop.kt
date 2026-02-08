@@ -27,6 +27,9 @@ class GameLoop(
     private var isRunning = false
     private var isPaused = false
 
+    // Lock object for wait/notify
+    private val pauseLock = Any()
+
     // Time tracking
     private var previousTime = 0L
     private var accumulator = 0f
@@ -56,9 +59,9 @@ class GameLoop(
 
         while (isRunning) {
             if (isPaused) {
-                synchronized(this) {
+                synchronized(pauseLock) {
                     while (isPaused && isRunning) {
-                        wait(100)
+                        pauseLock.wait(100)
                     }
                 }
                 previousTime = System.currentTimeMillis()
@@ -142,8 +145,8 @@ class GameLoop(
     fun resumeLoop() {
         isPaused = false
         gameEngine.resume()
-        synchronized(this) {
-            notifyAll()
+        synchronized(pauseLock) {
+            pauseLock.notifyAll()
         }
     }
 

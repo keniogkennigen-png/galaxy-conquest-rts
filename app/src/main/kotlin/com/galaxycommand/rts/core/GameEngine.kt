@@ -292,9 +292,9 @@ class GameEngine private constructor() {
 
     private fun processMovingState(unit: Unit, deltaTime: Float) {
         unit.target?.let { target ->
-            val direction = (target - unit.position).normalize()
+            val direction = (target - unit.position).normalized()
             val movement = direction.times(unit.speed * deltaTime)
-            unit.position = unit.position + movement
+            unit.position = unit.position.plus(movement)
 
             // Check if reached target
             if (unit.position.distanceTo(target) < 5f) {
@@ -307,19 +307,19 @@ class GameEngine private constructor() {
     }
 
     private fun processAttackingState(unit: Unit, deltaTime: Float) {
-        unit.target?.let { target ->
-            val distance = unit.position.distanceTo(target)
+        unit.targetUnit?.let { target ->
+            val distance = unit.position.distanceTo(target.position)
 
             if (distance > unit.attackRange) {
                 // Move toward target
-                val direction = (target - unit.position).normalize()
-                unit.position += direction * unit.speed * deltaTime
-            } else if (target is Unit && target.isAlive) {
+                val direction = (target.position - unit.position).normalized()
+                unit.position = unit.position.plus(direction.times(unit.speed * deltaTime))
+            } else if (target.isAlive) {
                 // Attack
                 combatSystem.attack(unit, target)
             } else {
                 unit.state = Unit.UnitState.IDLE
-                unit.target = null
+                unit.targetUnit = null
             }
         } ?: run {
             unit.state = Unit.UnitState.IDLE
@@ -332,8 +332,8 @@ class GameEngine private constructor() {
 
             if (distance > 50f) {
                 // Move toward resource
-                val direction = (resource.position - unit.position).normalize()
-                unit.position += direction * unit.speed * deltaTime
+                val direction = (resource.position - unit.position).normalized()
+                unit.position = unit.position.plus(direction.times(unit.speed * deltaTime))
             } else if (resource.amount > 0 && unit.carrying < unit.maxCarry) {
                 // Harvest
                 val harvestAmount = (5 * deltaTime).toInt().coerceAtMost(resource.amount)
@@ -343,8 +343,10 @@ class GameEngine private constructor() {
                 if (unit.carrying >= unit.maxCarry || resource.amount <= 0) {
                     // Return to base
                     unit.state = Unit.UnitState.RETURNING
-                    unit.target = findNearestBase(unit)
                     unit.targetResource = null
+                    findNearestBase(unit)?.let { base ->
+                        unit.target = base.position
+                    }
                 }
             }
         }
@@ -385,9 +387,9 @@ class GameEngine private constructor() {
     private fun processPatrollingState(unit: Unit, deltaTime: Float) {
         // Patrol between waypoints
         unit.target?.let { target ->
-            val direction = (target - unit.position).normalize()
-            val movement = direction * unit.speed * 0.5f * deltaTime
-            unit.position = unit.position + movement
+            val direction = (target - unit.position).normalized()
+            val movement = direction.times(unit.speed * 0.5f * deltaTime)
+            unit.position = unit.position.plus(movement)
 
             if (unit.position.distanceTo(target) < 10f) {
                 unit.target = null
