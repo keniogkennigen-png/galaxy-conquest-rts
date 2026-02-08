@@ -81,15 +81,24 @@ data class Vector2(
                 topLeft.y + random.nextFloat() * (bottomRight.y - topLeft.y)
             )
         }
-    }
 
-    /**
-     * Create vector from polar coordinates
-     */
-    constructor(length: Float, angleInRadians: Float) : this(
-        length * cos(angleInRadians),
-        length * sin(angleInRadians)
-    )
+        /**
+         * Create a new vector from Cartesian coordinates (x, y)
+         */
+        fun new(x: Float, y: Float): Vector2 {
+            return Vector2(x, y)
+        }
+
+        /**
+         * Create a new vector from polar coordinates (length, angle in radians)
+         */
+        fun fromPolar(length: Float, angleInRadians: Float): Vector2 {
+            return Vector2(
+                length * cos(angleInRadians),
+                length * sin(angleInRadians)
+            )
+        }
+    }
 
     /**
      * Get the length of the vector
