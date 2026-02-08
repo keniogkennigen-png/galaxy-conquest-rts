@@ -24,7 +24,7 @@ class Camera(
     }
 
     // Camera position (top-left corner of viewport)
-    var position = Vector2(0f, 0f)
+    var position = Vector2.new(0f, 0f)
         private set
 
     // Camera zoom level
@@ -38,7 +38,7 @@ class Camera(
         private set
 
     // Target position for smooth camera movement
-    private var targetPosition = Vector2(0f, 0f)
+    private var targetPosition = Vector2.new(0f, 0f)
     private var isFollowingTarget = false
 
     // Touch gesture state
@@ -113,7 +113,7 @@ class Camera(
         val targetY = worldY - (viewportHeight / 2) / zoom
 
         if (smooth) {
-            targetPosition = Vector2(targetX, targetY)
+            targetPosition = Vector2.new(targetX, targetY)
             isFollowingTarget = true
         } else {
             position.x = targetX
@@ -302,7 +302,7 @@ class Camera(
      * Reset camera to default position
      */
     fun reset() {
-        position = Vector2(0f, 0f)
+        position = Vector2.new(0f, 0f)
         zoom = DEFAULT_ZOOM
         isFollowingTarget = false
     }

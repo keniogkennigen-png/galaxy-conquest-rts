@@ -86,9 +86,9 @@ data class Vector2(
     /**
      * Create vector from polar coordinates
      */
-    constructor(length: Float, angle: Float) : this(
-        length * cos(angle),
-        length * sin(angle)
+    constructor(length: Float, angleInRadians: Float) : this(
+        length * cos(angleInRadians),
+        length * sin(angleInRadians)
     )
 
     /**
