@@ -51,7 +51,7 @@ data class Building(
     var faction: FactionType = FactionType.VANGUARD,
 
     override var radius: Float = 50f
-) : Entity(id, type, position, ownerId, radius, isAlive) {
+) : Entity(id, type, position, ownerId, radius, true) {
 
     /**
      * Building type classification
@@ -165,6 +165,11 @@ data class Building(
         get() = !isUnderConstruction || constructionProgress >= 100f
 
     /**
+     * Check if building has shields
+     */
+    fun hasShields(): Boolean = maxShield > 0f
+
+    /**
      * Take damage
      */
     fun takeDamage(amount: Float): Float {
@@ -188,6 +193,15 @@ data class Building(
         }
 
         return damage
+    }
+
+    /**
+     * Regenerate shields
+     */
+    fun regenerate(deltaTime: Float) {
+        if (hasShields() && shield < maxShield) {
+            shield = (shield + 5f * deltaTime).coerceAtMost(maxShield)
+        }
     }
 
     /**

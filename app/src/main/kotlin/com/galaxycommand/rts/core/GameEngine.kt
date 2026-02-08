@@ -353,12 +353,12 @@ class GameEngine private constructor() {
     }
 
     private fun processReturningState(unit: Unit, deltaTime: Float) {
-        unit.target?.let { base ->
-            val distance = unit.position.distanceTo(base.position)
+        unit.target?.let { target ->
+            val distance = unit.position.distanceTo(target)
 
             if (distance > 60f) {
-                val direction = (base.position - unit.position).normalize()
-                unit.position += direction * unit.speed * deltaTime
+                val direction = (target - unit.position).normalized()
+                unit.position = unit.position.plus(direction.times(unit.speed * deltaTime))
             } else {
                 // Deposit resources
                 gameState.addMinerals(unit.carrying)
