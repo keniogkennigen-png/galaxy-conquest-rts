@@ -158,7 +158,7 @@ data class GameState(
     fun getIncomeRate(): Int {
         // Simplified income calculation - could be enhanced with worker tracking
         val workers = players.firstOrNull { it.id == currentPlayerId }?.let {
-            unitsBuilt / 10 // Rough estimate based on units built
+            it.unitsBuilt / 10 // Rough estimate based on units built
         } ?: 5
         return workers * 10 // 10 minerals per worker per minute
     }
