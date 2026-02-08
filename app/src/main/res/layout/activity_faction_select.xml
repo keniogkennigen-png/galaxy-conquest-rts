@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_faction"
+        android:textColor="@color/text_primary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Vanguard Faction -->
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioVanguard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faction_vanguard"
+            android:textColor="@color/faction_vanguard"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Swarm Faction -->
+        <RadioButton
+            android:id="@+id/radioSwarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faction_swarm"
+            android:textColor="@color/faction_swarm"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Synod Faction -->
+        <RadioButton
+            android:id="@+id/radioSynod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faction_synod"
+            android:textColor="@color/faction_synod"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+    </RadioGroup>
+
+    <!-- Faction Description -->
+    <TextView
+        android:id="@+id/textFactionDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/faction_description_default"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:background="@drawable/hud_background"
+        android:layout_marginBottom="32dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="@string/back"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:background="@drawable/button_secondary"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="@string/start_game"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:background="@drawable/button_primary"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
