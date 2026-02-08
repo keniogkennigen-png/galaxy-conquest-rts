@@ -254,6 +254,13 @@ data class Vector2(
     }
 
     /**
+     * Get squared distance to another point (alias for distanceSquaredTo)
+     */
+    fun distanceToSquared(other: Vector2): Float {
+        return distanceSquared(this, other)
+    }
+
+    /**
      * Get angle to another point
      */
     fun angleTo(other: Vector2): Float {
