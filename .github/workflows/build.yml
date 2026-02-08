@@ -38,14 +38,28 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
           
+    - name: List files
+      run: |
+        echo "=== Project Structure ==="
+        ls -la
+        echo ""
+        echo "=== Gradle Files ==="
+        ls -la gradle/wrapper/
+        echo ""
+        echo "=== Gradle Properties ==="
+        cat gradle/wrapper/gradle-wrapper.properties
+        echo ""
+        echo "=== Build Files ==="
+        ls -la app/src/main/
+        
+    - name: Verify Gradle Wrapper
+      run: |
+        chmod +x gradlew
+        ./gradlew --version
+        
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --stacktrace
       timeout-minutes: 15
-      
-    - name: Build Release APK
-      run: ./gradlew assembleRelease
-      timeout-minutes: 15
-      continue-on-error: true
       
     - name: Upload APK
       uses: actions/upload-artifact@v3
@@ -53,23 +67,3 @@ jobs:
         name: debug-apk
         path: app/build/outputs/apk/debug/
         retention-days: 7
-        
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: release-apk
-        path: app/build/outputs/apk/release/
-        retention-days: 7
-      continue-on-error: true
-      
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
-      uses: softprops/action-gh-release@v1
-      with:
-        files: app/build/outputs/apk/debug/*.apk
-        name: Release ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true
