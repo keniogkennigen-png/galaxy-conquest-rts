@@ -4,7 +4,12 @@
     <color name="background_dark">#1a1a2e</color>
     <color name="background_medium">#2a2a4e</color>
     <color name="background_light">#3a3a5e</color>
-
+    
+    <!-- New color aliases for layouts -->
+    <color name="background_primary">#1a1a2e</color>
+    <color name="surface_secondary">#2a2a4e</color>
+    <color name="accent_primary">#00aaff</color>
+    
     <color name="text_primary">#ffffff</color>
     <color name="text_secondary">#b0b0c0</color>
     <color name="text_hint">#808090</color>

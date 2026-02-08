@@ -44,6 +44,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.GalaxyCommandRTS.Fullscreen" />
 
+        <activity
+            android:name=".ui.MapSelectActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.GalaxyCommandRTS.Fullscreen" />
+
     </application>
 
 </manifest>
