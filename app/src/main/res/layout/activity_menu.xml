@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_menu"
+        android:textColor="@color/text_primary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btnNewGame"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/new_game"
+        android:textSize="18sp"
+        android:textColor="@color/text_primary"
+        android:background="@drawable/button_primary"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnCampaign"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/campaign"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:background="@drawable/button_secondary"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnMultiplayer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/multiplayer"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:background="@drawable/button_secondary"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/settings"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:background="@drawable/button_secondary"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/exit"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:background="@drawable/button_danger"
+        android:layout_marginBottom="24dp" />
+
+</LinearLayout>

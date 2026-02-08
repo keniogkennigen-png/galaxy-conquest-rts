@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <!-- Game Surface View -->
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top HUD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="start">
+
+        <!-- Resources -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hud_background"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/textResources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:text="M: 50 | G: 0" />
+
+        </LinearLayout>
+
+        <!-- Timer -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="24sp"
+                android:text="00:00" />
+
+        </LinearLayout>
+
+        <!-- Pause Button -->
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/button_icon"
+            android:text="II"
+            android:textColor="@color/text_primary" />
+
+    </LinearLayout>
+
+    <!-- FPS Counter -->
+    <TextView
+        android:id="@+id/textFps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:textColor="@color/text_hint"
+        android:textSize="12sp"
+        android:text="60 FPS" />
+
+    <!-- Minimap Placeholder -->
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:background="@drawable/minimap_background"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minimap"
+            android:textColor="@color/text_hint"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <!-- Selection Info (Bottom Center) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/hud_background"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/textSelectionInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:text="No selection" />
+
+    </LinearLayout>
+
+</FrameLayout>
