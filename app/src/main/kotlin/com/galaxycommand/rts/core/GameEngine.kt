@@ -219,8 +219,8 @@ class GameEngine private constructor() {
     private fun getEnemyFaction(playerFaction: FactionType): FactionType {
         return when (playerFaction) {
             FactionType.VANGUARD -> FactionType.SWARM
-            FactionType.SWARM -> FactionType.SYNOD
-            FactionType.SYNOD -> FactionType.VANGUARD
+            FactionType.SWARM -> FactionType.SYNODE
+            FactionType.SYNODE -> FactionType.VANGUARD
         }
     }
 
@@ -293,7 +293,7 @@ class GameEngine private constructor() {
     private fun processMovingState(unit: Unit, deltaTime: Float) {
         unit.target?.let { target ->
             val direction = (target - unit.position).normalize()
-            val movement = direction * unit.speed * deltaTime
+            val movement = direction.times(unit.speed * deltaTime)
             unit.position = unit.position + movement
 
             // Check if reached target
