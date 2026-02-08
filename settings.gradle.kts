@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "GalaxyCommandRTS"
-include ':app'
+
+include(":app")
