@@ -414,7 +414,7 @@ data class Building(
                     radius = 70f,
                     maxStorage = 400
                 )
-                FactionType.SYNOD -> Building(
+                FactionType.SYNODE -> Building(
                     type = "Nexus",
                     position = position,
                     health = 1000f,
@@ -430,6 +430,7 @@ data class Building(
                     radius = 60f,
                     maxStorage = 400
                 )
+                else -> throw IllegalArgumentException("Unknown faction type: $faction")
             }
         }
 
@@ -466,7 +467,7 @@ data class Building(
                     faction = faction,
                     radius = 50f
                 )
-                FactionType.SYNOD -> Building(
+                FactionType.SYNODE -> Building(
                     type = "Gateway",
                     position = position,
                     ownerId = ownerId,
@@ -482,6 +483,7 @@ data class Building(
                     faction = faction,
                     radius = 55f
                 )
+                else -> throw IllegalArgumentException("Unknown faction type: $faction")
             }
 
             // Note: In a full implementation, we'd set up available unit types

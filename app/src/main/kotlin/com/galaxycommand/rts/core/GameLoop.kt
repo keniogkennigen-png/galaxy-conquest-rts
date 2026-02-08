@@ -27,8 +27,8 @@ class GameLoop(
     private var isRunning = false
     private var isPaused = false
 
-    // Lock object for wait/notify
-    private val pauseLock = Any()
+    // Lock object for wait/notify (using Object for Java synchronization)
+    private val pauseLock = java.lang.Object()
 
     // Time tracking
     private var previousTime = 0L

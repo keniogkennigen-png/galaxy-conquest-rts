@@ -20,7 +20,7 @@ data class Resource(
 
     // Visual
     var crystalColor: Int = 0xFF00AAFF.toInt()
-) : Entity(id, type, position, ownerId, radius, isAlive) {
+) : Entity(id, type, position, ownerId, radius, true) {
 
     /**
      * Resource type enum
@@ -36,6 +36,13 @@ data class Resource(
     override fun getCategory(): Entity.EntityCategory = Entity.EntityCategory.RESOURCE
 
     override fun getDisplayName(): String = "${resourceType.displayName} (${amount})"
+
+    /**
+     * Update resource logic (resources don't need much updating)
+     */
+    override fun update(deltaTime: Float) {
+        // Resources don't have active logic, they just sit there
+    }
 
     /**
      * Check if resource is depleted

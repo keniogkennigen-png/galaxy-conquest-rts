@@ -100,6 +100,8 @@ abstract class Entity(
      * Deserialize entity state
      */
     companion object {
-        abstract fun deserialize(data: String): Entity
+        fun deserialize(data: String): Entity {
+            throw UnsupportedOperationException("deserialize must be implemented by subclass")
+        }
     }
 }
