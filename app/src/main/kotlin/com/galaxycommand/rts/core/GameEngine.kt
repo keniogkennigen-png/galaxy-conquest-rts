@@ -206,7 +206,7 @@ class GameEngine private constructor() {
     private fun addMineralField(position: Vector2, amount: Int) {
         val resource = Resource(
             id = nextEntityId++,
-            type = Resource.ResourceType.MINERAL,
+            type = "Mineral",
             position = position,
             amount = amount,
             maxAmount = amount,
@@ -270,6 +270,9 @@ class GameEngine private constructor() {
             Unit.UnitState.GATHERING -> processGatheringState(unit, deltaTime)
             Unit.UnitState.RETURNING -> processReturningState(unit, deltaTime)
             Unit.UnitState.BUILDING -> processBuildingState(unit, deltaTime)
+            Unit.UnitState.PATROLLING -> processPatrollingState(unit, deltaTime)
+            Unit.UnitState.HOLDING_POSITION -> processHoldingPositionState(unit)
+            Unit.UnitState.DEAD -> { /* Do nothing for dead units */ }
         }
 
         // Regenerate shields/health if applicable
@@ -282,7 +285,7 @@ class GameEngine private constructor() {
             val nearbyEnemy = findNearestEnemy(unit)
             if (nearbyEnemy != null && unit.position.distanceTo(nearbyEnemy.position) <= unit.attackRange) {
                 unit.state = Unit.UnitState.ATTACKING
-                unit.target = nearbyEnemy
+                unit.targetUnit = nearbyEnemy
             }
         }
     }
@@ -290,7 +293,8 @@ class GameEngine private constructor() {
     private fun processMovingState(unit: Unit, deltaTime: Float) {
         unit.target?.let { target ->
             val direction = (target - unit.position).normalize()
-            unit.position += direction * unit.speed * deltaTime
+            val movement = direction * unit.speed * deltaTime
+            unit.position = unit.position + movement
 
             // Check if reached target
             if (unit.position.distanceTo(target) < 5f) {
@@ -376,6 +380,31 @@ class GameEngine private constructor() {
 
     private fun processBuildingState(unit: Unit, deltaTime: Float) {
         // Building construction logic
+    }
+
+    private fun processPatrollingState(unit: Unit, deltaTime: Float) {
+        // Patrol between waypoints
+        unit.target?.let { target ->
+            val direction = (target - unit.position).normalize()
+            val movement = direction * unit.speed * 0.5f * deltaTime
+            unit.position = unit.position + movement
+
+            if (unit.position.distanceTo(target) < 10f) {
+                unit.target = null
+                unit.state = Unit.UnitState.IDLE
+            }
+        } ?: run {
+            unit.state = Unit.UnitState.IDLE
+        }
+    }
+
+    private fun processHoldingPositionState(unit: Unit) {
+        // Hold position - do nothing unless enemy is very close
+        val nearbyEnemy = findNearestEnemy(unit)
+        if (nearbyEnemy != null && unit.position.distanceTo(nearbyEnemy.position) <= unit.attackRange) {
+            unit.state = Unit.UnitState.ATTACKING
+            unit.targetUnit = nearbyEnemy
+        }
     }
 
     private fun findNearestEnemy(unit: Unit): Unit? {
