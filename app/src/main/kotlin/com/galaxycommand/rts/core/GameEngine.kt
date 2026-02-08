@@ -10,8 +10,7 @@ import com.galaxycommand.rts.systems.AIEngine
 import com.galaxycommand.rts.systems.PathFinder
 import com.galaxycommand.rts.systems.CombatSystem
 import com.galaxycommand.rts.systems.FogOfWarManager
-import com.galaxycommand.rts.core.GameState
-import com.galaxycommand.rts.core.Vector2
+import com.galaxycommand.rts.ui.HUDManager
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.abs
 
@@ -54,6 +53,12 @@ class GameEngine private constructor() {
     private val buildings = ConcurrentHashMap<Long, Building>()
     private val resources = ConcurrentHashMap<Long, Resource>()
 
+    // Entity and game managers
+    val entityManager = EntityManager()
+    lateinit var camera: Camera
+    lateinit var gameMap: GameMap
+    var hudManager: HUDManager? = null
+
     // Entity ID counter
     private var nextEntityId = 1L
 
@@ -83,12 +88,43 @@ class GameEngine private constructor() {
         units.clear()
         buildings.clear()
         resources.clear()
+        entityManager.clear()
 
         // Generate map and initial entities
         generateMap()
 
         isRunning = true
         lastUpdateTime = System.currentTimeMillis()
+    }
+
+    /**
+     * Initialize the game with screen dimensions for camera and HUD
+     */
+    fun initializeWithScreen(
+        playerFaction: FactionType,
+        screenWidth: Int,
+        screenHeight: Int,
+        mapSeed: Int = System.currentTimeMillis().toInt(),
+        difficulty: AIEngine.Difficulty = AIEngine.Difficulty.MEDIUM
+    ) {
+        initialize(playerFaction, mapSeed, difficulty)
+        
+        // Initialize camera
+        camera = Camera(screenWidth, screenHeight, MAP_WIDTH, MAP_HEIGHT)
+        
+        // Initialize HUD
+        hudManager = HUDManager(gameMap, gameState, camera, entityManager)
+        hudManager?.initialize(screenWidth, screenHeight)
+    }
+
+    /**
+     * Handle screen size changes (rotation)
+     */
+    fun onScreenSizeChanged(screenWidth: Int, screenHeight: Int) {
+        if (::camera.isInitialized) {
+            camera.resize(screenWidth, screenHeight)
+        }
+        hudManager?.onOrientationChanged(screenWidth, screenHeight)
     }
 
     /**
@@ -195,6 +231,9 @@ class GameEngine private constructor() {
         val dt = (currentTime - lastUpdateTime) / 1000f
         lastUpdateTime = currentTime
 
+        // Update game time
+        gameState.gameTime += dt
+
         // Update all units
         units.values.forEach { unit ->
             updateUnit(unit, dt)
@@ -208,6 +247,9 @@ class GameEngine private constructor() {
 
         // Process combat
         combatSystem.update(dt, units.values.toList(), this)
+
+        // Update HUD
+        hudManager?.update()
 
         // Check win/lose conditions
         checkGameEndConditions()
@@ -418,6 +460,7 @@ class GameEngine private constructor() {
     fun addEntity(entity: Entity) {
         entity.id = nextEntityId++
         entities[entity.id] = entity
+        entityManager.addEntity(entity)
 
         when (entity) {
             is Unit -> units[entity.id] = entity
@@ -583,6 +626,40 @@ class GameEngine private constructor() {
      * Get game map dimensions
      */
     fun getMapSize(): Vector2 = Vector2(MAP_WIDTH, MAP_HEIGHT)
+
+    /**
+     * Get the entity manager
+     */
+    fun getEntityManager(): EntityManager = entityManager
+
+    /**
+     * Handle touch events for HUD and game input
+     * @param event The motion event
+     * @return true if the event was handled
+     */
+    fun onTouchEvent(event: android.view.MotionEvent): Boolean {
+        // First check if HUD handles the touch
+        hudManager?.let { hud ->
+            if (hud.onTouchEvent(event)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * Draw the HUD overlay
+     */
+    fun drawHUD(canvas: android.graphics.Canvas) {
+        hudManager?.draw(canvas)
+    }
+
+    /**
+     * Check if touch is within UI area
+     */
+    fun isTouchInUI(x: Float, y: Float): Boolean {
+        return hudManager?.isTouchInUI(x, y) ?: false
+    }
 
     /**
      * Check if game is running

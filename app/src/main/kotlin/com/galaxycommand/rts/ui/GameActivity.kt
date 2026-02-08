@@ -88,7 +88,13 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     private fun initGameEngine() {
         gameEngine = GameEngine.getInstance()
-        gameEngine.initialize(playerFaction, mapSeed, difficulty)
+        
+        // Get screen dimensions
+        val screenWidth = window.decorView.width
+        val screenHeight = window.decorView.height
+        
+        // Initialize with screen dimensions for camera and HUD
+        gameEngine.initializeWithScreen(playerFaction, screenWidth, screenHeight, mapSeed, difficulty)
     }
 
     private fun initCamera() {
@@ -108,7 +114,14 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     private fun initInput() {
         inputHandler = InputHandler(surfaceView, camera, this)
-        surfaceView.setOnTouchListener(inputHandler)
+        surfaceView.setOnTouchListener { view, event ->
+            // First check if game engine handles the touch (for HUD)
+            if (gameEngine.onTouchEvent(event)) {
+                return@setOnTouchListener true
+            }
+            // Otherwise use the normal input handler
+            inputHandler.onTouch(view, event)
+        }
     }
 
     private fun initUI() {
@@ -153,6 +166,9 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
                 // Render game
                 renderer.render(canvas, surfaceView.width, surfaceView.height)
+                
+                // Render HUD on top of game
+                gameEngine.drawHUD(canvas)
             } finally {
                 holder.unlockCanvasAndPost(canvas)
             }
@@ -205,6 +221,15 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     // InputHandler.InputCallback implementations
     override fun onSingleTap(worldPosition: Vector2) {
+        // Check if touch was in UI area (don't select units behind UI)
+        if (gameEngine.isTouchInUI(
+                worldPosition.x + camera.x,
+                worldPosition.y + camera.y
+            )
+        ) {
+            return
+        }
+        
         // Try to select unit at position
         val unit = gameEngine.getUnitAtPosition(worldPosition)
         if (unit != null) {

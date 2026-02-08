@@ -17,6 +17,8 @@ data class GameState(
 
     // Player resources
     var minerals: Int = 50,
+    var energy: Int = 50,
+    var maxEnergy: Int = 100,
     var gas: Int = 0,
     var supply: Int = 0,
     var maxSupply: Int = 200,
@@ -127,6 +129,53 @@ data class GameState(
      */
     fun getHumanPlayers(): List<PlayerInfo> {
         return players.filter { it.playerType == GameEngine.PlayerType.HUMAN && it.isAlive }
+    }
+
+    /**
+     * Get player minerals (for HUD display)
+     */
+    fun getPlayerMinerals(): Int {
+        return minerals
+    }
+
+    /**
+     * Get player energy (for HUD display)
+     */
+    fun getPlayerEnergy(): Int {
+        return energy
+    }
+
+    /**
+     * Get energy capacity (for HUD display)
+     */
+    fun getEnergyCapacity(): Int {
+        return maxEnergy
+    }
+
+    /**
+     * Calculate and get income rate per minute
+     */
+    fun getIncomeRate(): Int {
+        // Simplified income calculation - could be enhanced with worker tracking
+        val workers = players.firstOrNull { it.id == currentPlayerId }?.let {
+            unitsBuilt / 10 // Rough estimate based on units built
+        } ?: 5
+        return workers * 10 // 10 minerals per worker per minute
+    }
+
+    /**
+     * Check if fog of war is cleared at position (for minimap)
+     */
+    fun isFogOfWarCleared(x: Float, y: Float): Boolean {
+        // Simplified implementation - should be connected to FogOfWarManager
+        return true // All units visible for now
+    }
+
+    /**
+     * Get player faction type
+     */
+    fun getPlayerFaction(): FactionType {
+        return playerFaction
     }
 
     /**
