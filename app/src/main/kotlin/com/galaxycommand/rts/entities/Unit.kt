@@ -66,7 +66,7 @@ data class Unit(
 
     // Visual properties
     override var radius: Float = 15f
-) : Entity(id, type, position, ownerId, radius, isAlive) {
+) : Entity(id, type, position, ownerId, radius, true) {
 
     /**
      * Get unit state enum
@@ -96,6 +96,18 @@ data class Unit(
     override fun getCategory(): Entity.EntityCategory = Entity.EntityCategory.UNIT
 
     override fun getDisplayName(): String = displayName
+
+    /**
+     * Update unit logic
+     */
+    override fun update(deltaTime: Float) {
+        if (!isAlive) return
+
+        // Regenerate shields if applicable
+        if (hasShields() && shield < maxShield) {
+            shield = (shield + 5f * deltaTime).coerceAtMost(maxShield)
+        }
+    }
 
     override fun getHealthPercent(): Float {
         return if (maxHealth > 0) (health / maxHealth).coerceIn(0f, 1f) else 0f
@@ -201,8 +213,8 @@ data class Unit(
      * Move toward target position
      */
     fun moveToward(targetPos: Vector2, deltaTime: Float): Boolean {
-        val direction = (targetPos - position).normalize()
-        position += direction * speed * deltaTime
+        val direction = (targetPos - position).normalized()
+        position = position.plus(direction.times(speed * deltaTime))
 
         // Check if reached target
         return position.distanceTo(targetPos) < 5f
@@ -347,7 +359,7 @@ data class Unit(
                     faction = faction,
                     radius = 12f
                 )
-                FactionType.SYNOD -> Unit(
+                FactionType.SYNODE -> Unit(
                     type = "Probe",
                     position = position,
                     ownerId = ownerId,
@@ -362,6 +374,7 @@ data class Unit(
                     faction = faction,
                     radius = 12f
                 )
+                else -> throw IllegalArgumentException("Unknown faction type: $faction")
             }
         }
 
@@ -410,7 +423,7 @@ data class Unit(
                     faction = faction,
                     radius = 8f
                 )
-                FactionType.SYNOD -> Unit(
+                FactionType.SYNODE -> Unit(
                     type = "Zealot",
                     position = position,
                     ownerId = ownerId,
@@ -430,6 +443,7 @@ data class Unit(
                     faction = faction,
                     radius = 14f
                 )
+                else -> throw IllegalArgumentException("Unknown faction type: $faction")
             }
         }
     }
