@@ -11,7 +11,7 @@ import com.galaxycommand.rts.core.EntityManager
 import com.galaxycommand.rts.core.FactionType
 import com.galaxycommand.rts.core.GameMap
 import com.galaxycommand.rts.core.GameState
-import com.galaxycommand.rts.core.Unit
+import com.galaxycommand.rts.entities.Unit
 
 /**
  * Minimap component for overview navigation and tactical awareness.
@@ -241,13 +241,13 @@ class Minimap(
         for (unit in units) {
             if (!unit.isAlive) continue
             
-            val screenX = offsetX + (unit.x * scaleFactor)
-            val screenY = offsetY + (unit.y * scaleFactor)
+            val screenX = offsetX + (unit.position.x * scaleFactor)
+            val screenY = offsetY + (unit.position.y * scaleFactor)
             
             // Determine if unit should be visible on minimap
             val shouldShow = when {
                 unit.faction == gameState.playerFaction -> true
-                gameState.isFogOfWarCleared(unit.x, unit.y) -> true
+                gameState.isFogOfWarCleared(unit.position.x, unit.position.y) -> true
                 else -> false
             }
             
@@ -258,10 +258,7 @@ class Minimap(
                     else -> enemyUnitPaint
                 }
                 
-                val dotSize = when (unit) {
-                    is com.galaxycommand.rts.core.Building -> 4f
-                    else -> 2.5f
-                }
+                val dotSize = 2.5f
                 
                 canvas.drawCircle(screenX, screenY, dotSize, paint)
             }
@@ -272,10 +269,10 @@ class Minimap(
      * Draw the camera viewport rectangle on the minimap.
      */
     private fun drawViewport(canvas: Canvas, offsetX: Float, offsetY: Float) {
-        val camLeft = offsetX + (camera.x * scaleFactor)
-        val camTop = offsetY + (camera.y * scaleFactor)
-        val camRight = camLeft + (camera.width * scaleFactor)
-        val camBottom = camTop + (camera.height * scaleFactor)
+        val camLeft = offsetX + (camera.position.x * scaleFactor)
+        val camTop = offsetY + (camera.position.y * scaleFactor)
+        val camRight = camLeft + (camera.viewportWidth * scaleFactor)
+        val camBottom = camTop + (camera.viewportHeight * scaleFactor)
         
         canvas.drawRect(camLeft, camTop, camRight, camBottom, viewportPaint)
     }
@@ -325,12 +322,11 @@ class Minimap(
         val targetY = worldY - (camera.height / 2)
         
         // Clamp to map boundaries
-        val clampedX = targetX.coerceIn(0f, (gameMap.width * gameMap.tileSize) - camera.width)
-        val clampedY = targetY.coerceIn(0f, (gameMap.height * gameMap.tileSize) - camera.height)
+        val clampedX = targetX.coerceIn(0f, (gameMap.width * gameMap.tileSize) - camera.viewportWidth)
+        val clampedY = targetY.coerceIn(0f, (gameMap.height * gameMap.tileSize) - camera.viewportHeight)
         
         // Move camera to new position
-        camera.x = clampedX
-        camera.y = clampedY
+        camera.setPosition(clampedX, clampedY)
     }
     
     /**
