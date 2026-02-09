@@ -292,12 +292,12 @@ class GameRenderer(
      * Draw units
      */
     private fun drawUnits(canvas: Canvas) {
-        val units = gameEngine.getAllUnits()
+        val units: Map<Long, com.galaxycommand.rts.entities.Unit> = gameEngine.getAllUnits()
 
         // Sort by y position for depth
         val sortedUnits = units.values.sortedBy { it.position.y }
 
-        sortedUnits.forEach { (id, unit) ->
+        sortedUnits.forEach { (_, unit: com.galaxycommand.rts.entities.Unit) ->
             if (!unit.isVisibleTo(gameEngine.getGameState().currentPlayerId)) return@forEach
 
             val screenPos = camera?.worldToScreen(unit.position.x, unit.position.y)
@@ -314,9 +314,9 @@ class GameRenderer(
 
             // Draw unit shape based on type
             when (unit.faction) {
-                FactionType.VANGUARD -> drawTerranUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
-                FactionType.SWARM -> drawZergUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
-                FactionType.SYNOD -> drawProtossUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
+                com.galaxycommand.rts.factions.FactionType.VANGUARD -> drawTerranUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
+                com.galaxycommand.rts.factions.FactionType.SWARM -> drawZergUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
+                com.galaxycommand.rts.factions.FactionType.SYNODE -> drawProtossUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
             }
 
             // Draw selection ring
