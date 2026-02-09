@@ -161,20 +161,20 @@ class GameRenderer(
      */
     private fun drawGrid(canvas: Canvas) {
         val gridSize = 50f
-        val startX = renderBounds.left.floor()
-        val startY = renderBounds.top.floor()
-        val endX = renderBounds.right.ceil()
-        val endY = renderBounds.bottom.ceil()
+        val startX = kotlin.math.floor(renderBounds.left)
+        val startY = kotlin.math.floor(renderBounds.top)
+        val endX = kotlin.math.ceil(renderBounds.right)
+        val endY = kotlin.math.ceil(renderBounds.bottom)
 
         // Vertical lines
-        var x = (startX / gridSize).floor() * gridSize
+        var x = kotlin.math.floor(startX / gridSize) * gridSize
         while (x <= endX) {
             canvas.drawLine(x, startY, x, endY, gridPaint)
             x += gridSize
         }
 
         // Horizontal lines
-        var y = (startY / gridSize).floor() * gridSize
+        var y = kotlin.math.floor(startY / gridSize) * gridSize
         while (y <= endY) {
             canvas.drawLine(startX, y, endX, y, gridPaint)
             y += gridSize

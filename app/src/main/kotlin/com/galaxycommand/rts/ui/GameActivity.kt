@@ -223,8 +223,8 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     override fun onSingleTap(worldPosition: Vector2) {
         // Check if touch was in UI area (don't select units behind UI)
         if (gameEngine.isTouchInUI(
-                worldPosition.x + camera.x,
-                worldPosition.y + camera.y
+                worldPosition.x + camera.position.x,
+                worldPosition.y + camera.position.y
             )
         ) {
             return
