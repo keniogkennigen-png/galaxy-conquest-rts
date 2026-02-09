@@ -266,10 +266,8 @@ class GameRenderer(
             canvas.drawRect(screenWidth * 0.1f, screenHeight * 0.1f, screenWidth * 0.9f, screenHeight * 0.9f, buildingPaint)
 
             // Draw selection ring
-            if (building.isSelected) {
-                selectionPaint.color = if (isAlly) COLOR_SELECTION_ALLY else COLOR_SELECTION_ENEMY
-                canvas.drawRect(-5f, -5f, screenWidth + 5f, screenHeight + 5f, selectionPaint)
-            }
+            // Note: Buildings don't have isSelected property - only units do
+            // Selection ring for buildings would need a separate mechanism
 
             // Draw health bar
             drawHealthBar(canvas, screenWidth, screenHeight, building.getHealthPercent(), building.hasShields())
