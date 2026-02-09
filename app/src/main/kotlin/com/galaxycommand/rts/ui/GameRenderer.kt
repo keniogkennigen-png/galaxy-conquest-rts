@@ -297,14 +297,14 @@ class GameRenderer(
         // Sort by y position for depth
         val sortedUnits = units.values.sortedBy { it.position.y }
 
-        sortedUnits.forEach { (_, unit: com.galaxycommand.rts.entities.Unit) ->
-            if (!unit.isVisibleTo(gameEngine.getGameState().currentPlayerId)) return@forEach
+        for (unit in sortedUnits) {
+            if (!unit.isVisibleTo(gameEngine.getGameState().currentPlayerId)) continue
 
             val screenPos = camera?.worldToScreen(unit.position.x, unit.position.y)
-                ?: return@forEach
+                ?: continue
 
             // Check if on screen
-            if (!isOnScreen(screenPos.x, screenPos.y, unit.radius * 2)) return@forEach
+            if (!isOnScreen(screenPos.x, screenPos.y, unit.radius * 2)) continue
 
             val screenRadius = camera?.worldToScreenDistance(unit.radius) ?: unit.radius
             val isAlly = unit.ownerId == gameEngine.getGameState().currentPlayerId
