@@ -59,7 +59,8 @@ sealed class Faction(
             return when (factionType) {
                 FactionType.VANGUARD -> VanguardFaction()
                 FactionType.SWARM -> SwarmFaction()
-                FactionType.SYNOD -> SynodFaction()
+                FactionType.SYNODE -> SynodFaction()
+                else -> throw IllegalArgumentException("Unknown faction type: $factionType")
             }
         }
     }
@@ -96,7 +97,7 @@ class VanguardFaction : Faction(FactionType.VANGUARD) {
         Building.UnitType.GHOST,
         Building.UnitType.HELLION,
         Building.UnitType.MARAUDER,
-        Building.UnitType.SIEGETANK,
+        Building.UnitType.TANK,
         Building.UnitType.THOR,
         Building.UnitType.MEDIVAC,
         Building.UnitType.VIKING,
@@ -148,7 +149,7 @@ class SwarmFaction : Faction(FactionType.SWARM) {
         Building.UnitType.ULTRALISK,
         Building.UnitType.MUTALISK,
         Building.UnitType.CORRUPTOR,
-        Building.UnitType.BROODLORD,
+        Building.UnitType.BLORG,
         Building.UnitType.OVERLORD,
         Building.UnitType.OVERSEER,
         Building.UnitType.QUEEN
@@ -170,22 +171,22 @@ class SwarmFaction : Faction(FactionType.SWARM) {
 /**
  * Protoss-equivalent faction: Advanced technology, shielded, powerful but expensive
  */
-class SynodFaction : Faction(FactionType.SYNOD) {
+class SynodFaction : Faction(FactionType.SYNODE) {
 
     override fun createWorker(position: Vector2, ownerId: Long, playerType: com.galaxycommand.rts.core.GameEngine.PlayerType): Unit {
-        return Unit.createWorker(position, ownerId, FactionType.SYNOD)
+        return Unit.createWorker(position, ownerId, FactionType.SYNODE)
     }
 
     override fun createCombatUnit(position: Vector2, ownerId: Long, playerType: com.galaxycommand.rts.core.GameEngine.PlayerType): Unit {
-        return Unit.createCombatUnit(position, ownerId, FactionType.SYNOD)
+        return Unit.createCombatUnit(position, ownerId, FactionType.SYNODE)
     }
 
     override fun createBaseBuilding(position: Vector2): Building {
-        return Building.createBaseBuilding(position, FactionType.SYNOD)
+        return Building.createBaseBuilding(position, FactionType.SYNODE)
     }
 
     override fun createProductionBuilding(position: Vector2, ownerId: Long): Building {
-        return Building.createProductionBuilding(position, ownerId, FactionType.SYNOD, getAvailableUnits())
+        return Building.createProductionBuilding(position, ownerId, FactionType.SYNODE, getAvailableUnits())
     }
 
     override fun getFactionColor(): Int = 0xFFFFCA28.toInt() // Gold

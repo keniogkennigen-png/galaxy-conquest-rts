@@ -106,7 +106,6 @@ class AIEngine {
                 if (workersBuilt < WORKER_LIMIT && minerals >= 50) {
                     queueUnitProduction("worker")
                     workersBuilt++
-                    minerals -= 50
                 }
                 // Expand when rich
                 else if (minerals > EXPAND_THRESHOLD && !expandRequested) {
@@ -236,7 +235,8 @@ class AIEngine {
         return when (faction) {
             FactionType.VANGUARD -> Building.UnitType.SCV
             FactionType.SWARM -> Building.UnitType.DRONE
-            FactionType.SYNOD -> Building.UnitType.PROBE
+            FactionType.SYNODE -> Building.UnitType.PROBE
+            else -> Building.UnitType.PROBE
         }
     }
 
@@ -256,11 +256,12 @@ class AIEngine {
                 Building.UnitType.ROACH,
                 Building.UnitType.HYDRA
             ).random()
-            FactionType.SYNOD -> listOf(
+            FactionType.SYNODE -> listOf(
                 Building.UnitType.ZEALOT,
                 Building.UnitType.STALKER,
                 Building.UnitType.ADEPT
             ).random()
+            else -> Building.UnitType.ZEALOT
         }
     }
 
