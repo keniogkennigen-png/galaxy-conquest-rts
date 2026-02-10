@@ -106,13 +106,13 @@ class MenuActivity : AppCompatActivity() {
 
         vanguardBtn?.setOnClickListener { selectFaction(FactionType.VANGUARD) }
         swarmBtn?.setOnClickListener { selectFaction(FactionType.SWARM) }
-        synodBtn?.setOnClickListener { selectFaction(FactionType.SYNOD) }
+        synodBtn?.setOnClickListener { selectFaction(FactionType.SYNODE) }
 
         findViewById<View>(R.id.btnConfirm)?.setOnClickListener {
             val selectedFaction = when {
                 vanguardBtn?.isChecked == true -> FactionType.VANGUARD
                 swarmBtn?.isChecked == true -> FactionType.SWARM
-                synodBtn?.isChecked == true -> FactionType.SYNOD
+                synodBtn?.isChecked == true -> FactionType.SYNODE
                 else -> FactionType.VANGUARD
             }
 
