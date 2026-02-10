@@ -8,9 +8,9 @@ import android.graphics.RectF
 import android.view.MotionEvent
 import com.galaxycommand.rts.core.Camera
 import com.galaxycommand.rts.core.EntityManager
-import com.galaxycommand.rts.core.FactionType
 import com.galaxycommand.rts.core.GameMap
 import com.galaxycommand.rts.core.GameState
+import com.galaxycommand.rts.factions.FactionType
 import com.galaxycommand.rts.entities.Unit
 
 /**
@@ -338,8 +338,9 @@ class Minimap(
         createTerrainBitmap()
     }
     
-    override fun finalize() {
-        super.finalize()
+    override fun onDestroy() {
+        super.onDestroy()
         terrainBitmap?.recycle()
+        terrainBitmap = null
     }
 }
