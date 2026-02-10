@@ -662,11 +662,6 @@ class GameEngine private constructor() {
     fun getMapSize(): Vector2 = Vector2.new(MAP_WIDTH, MAP_HEIGHT)
 
     /**
-     * Get the entity manager
-     */
-    fun getEntityManager(): EntityManager = entityManager
-
-    /**
      * Handle touch events for HUD and game input
      * @param event The motion event
      * @return true if the event was handled

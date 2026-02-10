@@ -299,13 +299,6 @@ data class Building(
     }
 
     /**
-     * Set rally point
-     */
-    fun setRallyPoint(point: Vector2) {
-        rallyPoint = point
-    }
-
-    /**
      * Start construction
      */
     fun startConstruction() {
