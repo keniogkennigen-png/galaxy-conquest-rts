@@ -161,26 +161,6 @@ class HUDManager(
     }
     
     /**
-     * Enable or disable all UI components.
-     */
-    fun setEnabled(enabled: Boolean) {
-        isEnabled = enabled
-        for (component in components) {
-            component.isEnabled = enabled
-        }
-    }
-    
-    /**
-     * Get the minimap component.
-     */
-    fun getMinimap(): Minimap = minimap
-    
-    /**
-     * Get the resource bar component.
-     */
-    fun getResourceBar(): ResourceBar = resourceBar
-    
-    /**
      * Check if the given screen coordinates are within any UI component.
      */
     fun isTouchInUI(x: Float, y: Float): Boolean {

@@ -95,8 +95,6 @@ data class Unit(
 
     override fun getCategory(): Entity.EntityCategory = Entity.EntityCategory.UNIT
 
-    override fun getDisplayName(): String = displayName
-
     /**
      * Update unit logic
      */
