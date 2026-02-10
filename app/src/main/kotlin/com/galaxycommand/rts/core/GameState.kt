@@ -172,13 +172,6 @@ data class GameState(
     }
 
     /**
-     * Get player faction type
-     */
-    fun getPlayerFaction(): FactionType {
-        return playerFaction
-    }
-
-    /**
      * Get current player info
      */
     fun getCurrentPlayer(): PlayerInfo? {
