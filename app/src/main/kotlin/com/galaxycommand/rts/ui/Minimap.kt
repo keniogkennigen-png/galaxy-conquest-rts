@@ -318,12 +318,13 @@ class Minimap(
         val worldY = (touchY - innerTop) / scaleFactor
         
         // Center the camera on the touched position
-        val targetX = worldX - (camera.width / 2)
-        val targetY = worldY - (camera.height / 2)
+        val targetX = worldX - (camera.viewportWidth / 2)
+        val targetY = worldY - (camera.viewportHeight / 2)
         
         // Clamp to map boundaries
-        val clampedX = targetX.coerceIn(0f, (gameMap.width * gameMap.tileSize) - camera.viewportWidth)
-        val clampedY = targetY.coerceIn(0f, (gameMap.height * gameMap.tileSize) - camera.viewportHeight)
+        val tileSize = 32f // Standard tile size for the game
+        val clampedX = targetX.coerceIn(0f, (gameMap.width * tileSize) - camera.viewportWidth)
+        val clampedY = targetY.coerceIn(0f, (gameMap.height * tileSize) - camera.viewportHeight)
         
         // Move camera to new position
         camera.setPosition(clampedX, clampedY)
