@@ -7,6 +7,7 @@ import com.galaxycommand.rts.core.GameState
 import com.galaxycommand.rts.core.Vector2
 import com.galaxycommand.rts.factions.FactionType
 import com.galaxycommand.rts.R
+import com.galaxycommand.rts.systems.AIEngine
 
 /**
  * Main Activity for the Galaxy Command RTS game.
@@ -53,14 +54,14 @@ class MainActivity : AppCompatActivity() {
         } ?: FactionType.VANGUARD
 
         // Get difficulty (default to Medium)
-        val difficulty = intent.getStringExtra("difficulty")?.let {
+        val difficulty: AIEngine.Difficulty = intent.getStringExtra("difficulty")?.let {
             when (it.lowercase()) {
-                "easy" -> GameEngine.AIEngine.Difficulty.EASY
-                "hard" -> GameEngine.AIEngine.Difficulty.HARD
-                "insane" -> GameEngine.AIEngine.Difficulty.INSANE
-                else -> GameEngine.AIEngine.Difficulty.MEDIUM
+                "easy" -> AIEngine.Difficulty.EASY
+                "hard" -> AIEngine.Difficulty.HARD
+                "insane" -> AIEngine.Difficulty.INSANE
+                else -> AIEngine.Difficulty.MEDIUM
             }
-        } ?: GameEngine.AIEngine.Difficulty.MEDIUM
+        } ?: AIEngine.Difficulty.MEDIUM
 
         // Start game activity
         val intent = android.content.Intent(this, GameActivity::class.java).apply {
