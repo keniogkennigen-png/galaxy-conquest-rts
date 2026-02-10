@@ -254,7 +254,6 @@ class Minimap(
             if (shouldShow) {
                 val paint = when (unit.faction) {
                     gameState.playerFaction -> playerUnitPaint
-                    FactionType.NEUTRAL -> neutralUnitPaint
                     else -> enemyUnitPaint
                 }
                 
@@ -338,8 +337,10 @@ class Minimap(
         createTerrainBitmap()
     }
     
-    override fun onDestroy() {
-        super.onDestroy()
+    /**
+     * Cleanup resources when component is destroyed.
+     */
+    fun cleanup() {
         terrainBitmap?.recycle()
         terrainBitmap = null
     }
