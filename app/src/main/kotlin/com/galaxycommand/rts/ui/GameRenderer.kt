@@ -552,7 +552,8 @@ class GameRenderer(
         return when (faction) {
             FactionType.VANGUARD -> 0xFF546E7A.toInt() // Blue-grey
             FactionType.SWARM -> 0xFF4E342E.toInt() // Brown/purple
-            FactionType.SYNOD -> 0xFFFFCA28.toInt() // Gold
+            FactionType.SYNODE -> 0xFFFFCA28.toInt() // Gold
+            else -> 0xFF888888.toInt() // Default gray
         }
     }
 

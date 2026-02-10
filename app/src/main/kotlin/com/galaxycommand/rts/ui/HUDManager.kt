@@ -83,14 +83,20 @@ class HUDManager(
     private fun centerCameraOnSpawn() {
         val spawn = gameMap.getPlayerSpawn(gameState.playerFaction)
         if (spawn != null) {
-            camera.x = (spawn.x * gameMap.tileSize) - (camera.width / 2)
-            camera.y = (spawn.y * gameMap.tileSize) - (camera.height / 2)
+            val spawnX = spawn.position.x
+            val spawnY = spawn.position.y
+            camera.setPosition(
+                (spawnX * gameMap.tileSize) - (camera.viewportWidth / 2),
+                (spawnY * gameMap.tileSize) - (camera.viewportHeight / 2)
+            )
             
             // Clamp to map boundaries
-            val maxX = (gameMap.width * gameMap.tileSize) - camera.width
-            val maxY = (gameMap.height * gameMap.tileSize) - camera.height
-            camera.x = camera.x.coerceIn(0f, maxX.coerceAtLeast(0f))
-            camera.y = camera.y.coerceIn(0f, maxY.coerceAtLeast(0f))
+            val maxX = (gameMap.width * gameMap.tileSize) - camera.viewportWidth
+            val maxY = (gameMap.height * gameMap.tileSize) - camera.viewportHeight
+            camera.setPosition(
+                camera.position.x.coerceIn(0f, maxX.coerceAtLeast(0f)),
+                camera.position.y.coerceIn(0f, maxY.coerceAtLeast(0f))
+            )
         }
     }
     
