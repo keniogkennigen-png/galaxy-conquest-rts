@@ -60,6 +60,12 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
         setContentView(R.layout.activity_game)
 
+        // Initialize SurfaceView
+        surfaceView = findViewById(R.id.surfaceView)
+        if (surfaceView == null) {
+            throw IllegalStateException("SurfaceView not found in layout")
+        }
+
         // Get intent extras
         intent.getStringExtra("faction")?.let {
             playerFaction = FactionType.fromName(it) ?: FactionType.VANGUARD
