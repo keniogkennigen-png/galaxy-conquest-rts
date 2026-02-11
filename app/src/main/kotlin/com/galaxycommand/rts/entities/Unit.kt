@@ -37,7 +37,6 @@ data class Unit(
 
     // Selection and UI
     var isSelected: Boolean = false,
-    var displayName: String = "Unit",
 
     // Unit type flags
     val unitType: UnitType = UnitType.COMBAT,
