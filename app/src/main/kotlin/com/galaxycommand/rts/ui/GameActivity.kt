@@ -89,21 +89,27 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     private fun initGameEngine() {
         gameEngine = GameEngine.getInstance()
         
-        // Get screen dimensions
-        val screenWidth = window.decorView.width
-        val screenHeight = window.decorView.height
+        // Get screen dimensions - use default values if not yet measured
+        var screenWidth = window.decorView.width
+        var screenHeight = window.decorView.height
+        
+        // Fallback to common mobile resolution if dimensions are 0
+        if (screenWidth <= 0) screenWidth = 1080
+        if (screenHeight <= 0) screenHeight = 1920
         
         // Initialize with screen dimensions for camera and HUD
         gameEngine.initializeWithScreen(playerFaction, screenWidth, screenHeight, mapSeed, difficulty)
     }
 
     private fun initCamera() {
-        val mapSize = gameEngine.getMapSize()
-        camera = Camera(mapSize.x, mapSize.y)
+        // Use the camera from game engine (already initialized with viewport size)
+        camera = gameEngine.camera
 
-        // Set viewport size based on surface
+        // Update viewport size based on surface if available
         surfaceView?.let {
-            camera.setViewportSize(it.width, it.height)
+            if (it.width > 0 && it.height > 0) {
+                camera.setViewportSize(it.width, it.height)
+            }
         }
     }
 
@@ -125,10 +131,15 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     }
 
     private fun initUI() {
-        resourcesText = findViewById(R.id.textResources) ?: return
-        timerText = findViewById(R.id.textTimer) ?: return
-        fpsText = findViewById(R.id.textFps) ?: return
-        btnPause = findViewById(R.id.btnPause) ?: return
+        resourcesText = findViewById(R.id.textResources) 
+        timerText = findViewById(R.id.textTimer)
+        fpsText = findViewById(R.id.textFps)
+        btnPause = findViewById(R.id.btnPause)
+
+        // Verify all views are found
+        if (resourcesText == null || timerText == null || fpsText == null || btnPause == null) {
+            throw IllegalStateException("Failed to find required UI views in activity_game.xml")
+        }
 
         btnPause.setOnClickListener {
             togglePause()
