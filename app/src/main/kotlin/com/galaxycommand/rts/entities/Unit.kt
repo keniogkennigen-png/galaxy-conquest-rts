@@ -337,7 +337,6 @@ data class Unit(
                     unitType = UnitType.WORKER,
                     isWorker = true,
                     maxCarry = 8,
-                    displayName = "SCV",
                     faction = faction,
                     radius = 12f
                 )
@@ -352,7 +351,6 @@ data class Unit(
                     unitType = UnitType.WORKER,
                     isWorker = true,
                     maxCarry = 8,
-                    displayName = "Drone",
                     faction = faction,
                     radius = 12f
                 )
@@ -367,7 +365,6 @@ data class Unit(
                     unitType = UnitType.WORKER,
                     isWorker = true,
                     maxCarry = 10,
-                    displayName = "Probe",
                     faction = faction,
                     radius = 12f
                 )
@@ -398,7 +395,6 @@ data class Unit(
                     sightRange = 130f,
                     unitType = UnitType.COMBAT,
                     isWorker = false,
-                    displayName = "Marine",
                     faction = faction,
                     radius = 10f
                 )
@@ -416,7 +412,6 @@ data class Unit(
                     sightRange = 100f,
                     unitType = UnitType.COMBAT,
                     isWorker = false,
-                    displayName = "Zergling",
                     faction = faction,
                     radius = 8f
                 )
@@ -436,7 +431,6 @@ data class Unit(
                     sightRange = 140f,
                     unitType = UnitType.COMBAT,
                     isWorker = false,
-                    displayName = "Zealot",
                     faction = faction,
                     radius = 14f
                 )
