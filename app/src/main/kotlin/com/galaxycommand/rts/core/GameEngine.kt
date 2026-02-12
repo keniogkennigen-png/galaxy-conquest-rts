@@ -670,12 +670,13 @@ class GameEngine private constructor() {
      * @return true if the event was handled
      */
     fun onTouchEvent(event: android.view.MotionEvent): Boolean {
+        // Custom HUD touch handling disabled - using XML layout instead
         // First check if HUD handles the touch
-        hudManager?.let { hud ->
-            if (hud.onTouchEvent(event)) {
-                return true
-            }
-        }
+        // hudManager?.let { hud ->
+        //     if (hud.onTouchEvent(event)) {
+        //         return true
+        //     }
+        // }
         return false
     }
 
@@ -683,7 +684,8 @@ class GameEngine private constructor() {
      * Draw the HUD overlay
      */
     fun drawHUD(canvas: android.graphics.Canvas) {
-        hudManager?.draw(canvas)
+        // Custom HUD disabled - using XML layout instead to avoid overlap
+        // hudManager?.draw(canvas)
     }
 
     /**
