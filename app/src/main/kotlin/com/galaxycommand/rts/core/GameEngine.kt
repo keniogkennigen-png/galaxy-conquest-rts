@@ -116,9 +116,39 @@ class GameEngine private constructor() {
         camera = Camera(MAP_WIDTH, MAP_HEIGHT)
         camera.setViewportSize(screenWidth, screenHeight)
         
+        // Center camera on player's spawn position
+        centerCameraOnPlayerSpawn()
+        
         // Initialize HUD
         hudManager = HUDManager(gameMap, gameState, camera, entityManager)
         hudManager?.initialize(screenWidth, screenHeight)
+    }
+    
+    /**
+     * Center camera on player's spawn position
+     */
+    private fun centerCameraOnPlayerSpawn() {
+        val spawn = gameMap.getPlayerSpawn(gameState.playerFaction)
+        if (spawn != null) {
+            // Convert tile coordinates to world coordinates (tile * 32)
+            val tileSize = 32f
+            val worldX = spawn.x * tileSize
+            val worldY = spawn.y * tileSize
+            
+            // Center camera on spawn
+            camera.setPosition(
+                worldX - camera.viewportWidth / 2,
+                worldY - camera.viewportHeight / 2
+            )
+            
+            // Clamp to map boundaries
+            val maxX = MAP_WIDTH - camera.viewportWidth
+            val maxY = MAP_HEIGHT - camera.viewportHeight
+            camera.setPosition(
+                camera.position.x.coerceIn(0f, maxX.coerceAtLeast(0f)),
+                camera.position.y.coerceIn(0f, maxY.coerceAtLeast(0f))
+            )
+        }
     }
 
     /**

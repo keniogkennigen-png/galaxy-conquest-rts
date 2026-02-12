@@ -40,7 +40,9 @@ abstract class Entity(
      * Check if entity is visible to a player
      */
     open fun isVisibleTo(playerId: Long): Boolean {
-        return ownerId == playerId || !isAlive
+        // Show all alive entities (for debugging/playability)
+        // TODO: Implement proper fog of war
+        return isAlive
     }
 
     /**
