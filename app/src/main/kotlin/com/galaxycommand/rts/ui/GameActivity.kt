@@ -95,7 +95,7 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     private fun initGameEngine() {
         gameEngine = GameEngine.getInstance()
         
-        // Get screen dimensions - use default values if not yet measured
+        // Get screen dimensions from decor view
         var screenWidth = window.decorView.width
         var screenHeight = window.decorView.height
         
@@ -105,18 +105,19 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
         
         // Initialize with screen dimensions for camera and HUD
         gameEngine.initializeWithScreen(playerFaction, screenWidth, screenHeight, mapSeed, difficulty)
+        
+        // After initialization, update camera with proper surface view dimensions
+        surfaceView.post {
+            if (surfaceView.width > 0 && surfaceView.height > 0) {
+                gameEngine.camera.setViewportSize(surfaceView.width, surfaceView.height)
+                gameEngine.onScreenSizeChanged(surfaceView.width, surfaceView.height)
+            }
+        }
     }
 
     private fun initCamera() {
         // Use the camera from game engine (already initialized with viewport size)
         camera = gameEngine.camera
-
-        // Update viewport size based on surface if available
-        surfaceView?.let {
-            if (it.width > 0 && it.height > 0) {
-                camera.setViewportSize(it.width, it.height)
-            }
-        }
     }
 
     private fun initRenderer() {
@@ -238,15 +239,6 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     // InputHandler.InputCallback implementations
     override fun onSingleTap(worldPosition: Vector2) {
-        // Check if touch was in UI area (don't select units behind UI)
-        if (gameEngine.isTouchInUI(
-                worldPosition.x + camera.position.x,
-                worldPosition.y + camera.position.y
-            )
-        ) {
-            return
-        }
-        
         // Try to select unit at position
         val unit = gameEngine.getUnitAtPosition(worldPosition)
         if (unit != null) {

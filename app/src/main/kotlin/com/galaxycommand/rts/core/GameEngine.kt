@@ -722,7 +722,8 @@ class GameEngine private constructor() {
      * Check if touch is within UI area
      */
     fun isTouchInUI(x: Float, y: Float): Boolean {
-        return hudManager?.isTouchInUI(x, y) ?: false
+        // Custom HUD disabled - using XML layout instead
+        return false
     }
 
     /**
