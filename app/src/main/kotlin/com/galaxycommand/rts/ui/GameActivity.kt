@@ -239,17 +239,29 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     // InputHandler.InputCallback implementations
     override fun onSingleTap(worldPosition: Vector2) {
-        // Try to select unit at position
-        val unit = gameEngine.getUnitAtPosition(worldPosition)
-        if (unit != null) {
+        // Find any unit at position - larger radius for easier selection
+        val allUnits = gameEngine.getAllUnits().values.filter { it.isAlive }
+        
+        var closestUnit: com.galaxycommand.rts.entities.Unit? = null
+        var closestDistance = Float.MAX_VALUE
+        
+        for (unit in allUnits) {
+            val distance = unit.position.distanceTo(worldPosition)
+            if (distance < closestDistance && distance < 100f) {
+                closestDistance = distance
+                closestUnit = unit
+            }
+        }
+        
+        if (closestUnit != null) {
             // Select unit
             gameEngine.getAllUnits().values.forEach { it.isSelected = false }
-            unit.isSelected = true
+            closestUnit.isSelected = true
         } else {
             // Check for resource
             val resource = gameEngine.getResourceAtPosition(worldPosition)
             if (resource != null) {
-                // Show resource info or assign workers
+                // Show resource info
             } else {
                 // Move selected units
                 val selectedUnits = gameEngine.getAllUnits().values.filter { it.isSelected }

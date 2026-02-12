@@ -572,7 +572,7 @@ class GameEngine private constructor() {
     /**
      * Get unit at position
      */
-    fun getUnitAtPosition(position: Vector2, radius: Float = 20f): Unit? {
+    fun getUnitAtPosition(position: Vector2, radius: Float = 50f): Unit? {
         return units.values.find { unit ->
             unit.isAlive && unit.position.distanceTo(position) < radius
         }
@@ -581,7 +581,7 @@ class GameEngine private constructor() {
     /**
      * Get resource at position
      */
-    fun getResourceAtPosition(position: Vector2, radius: Float = 40f): Resource? {
+    fun getResourceAtPosition(position: Vector2, radius: Float = 60f): Resource? {
         return resources.values.find { resource ->
             resource.amount > 0 && resource.position.distanceTo(position) < radius
         }
