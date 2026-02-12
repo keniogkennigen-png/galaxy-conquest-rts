@@ -77,6 +77,9 @@ class GameEngine private constructor() {
             isPaused = false
         )
 
+        // Initialize game map
+        gameMap = MapManager.getDefaultMap()
+
         // Reset subsystems
         pathFinder.initialize()
         combatSystem.initialize()
