@@ -152,8 +152,8 @@ class GameRenderer(
         // Draw selection rectangle
         // (handled by InputHandler)
 
-        // Draw UI overlays
-        drawUIOverlays(canvas, width, height)
+        // UI overlays disabled - using XML layout instead to avoid duplication
+        // drawUIOverlays(canvas, width, height)
     }
 
     /**

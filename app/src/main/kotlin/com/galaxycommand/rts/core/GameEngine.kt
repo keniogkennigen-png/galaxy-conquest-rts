@@ -112,8 +112,12 @@ class GameEngine private constructor() {
     ) {
         initialize(playerFaction, mapSeed, difficulty)
         
-        // Initialize camera
-        camera = Camera(MAP_WIDTH, MAP_HEIGHT)
+        // Get actual map dimensions in world coordinates
+        val mapWorldWidth = gameMap.width * TILE_SIZE
+        val mapWorldHeight = gameMap.height * TILE_SIZE
+        
+        // Initialize camera with actual map dimensions
+        camera = Camera(mapWorldWidth, mapWorldHeight)
         camera.setViewportSize(screenWidth, screenHeight)
         
         // Center camera on player's spawn position
@@ -135,6 +139,10 @@ class GameEngine private constructor() {
             val worldX = spawn.x * tileSize
             val worldY = spawn.y * tileSize
             
+            // Get actual map dimensions
+            val mapWorldWidth = gameMap.width * tileSize
+            val mapWorldHeight = gameMap.height * tileSize
+            
             // Center camera on spawn
             camera.setPosition(
                 worldX - camera.viewportWidth / 2,
@@ -142,8 +150,8 @@ class GameEngine private constructor() {
             )
             
             // Clamp to map boundaries
-            val maxX = MAP_WIDTH - camera.viewportWidth
-            val maxY = MAP_HEIGHT - camera.viewportHeight
+            val maxX = mapWorldWidth - camera.viewportWidth
+            val maxY = mapWorldHeight - camera.viewportHeight
             camera.setPosition(
                 camera.position.x.coerceIn(0f, maxX.coerceAtLeast(0f)),
                 camera.position.y.coerceIn(0f, maxY.coerceAtLeast(0f))
@@ -167,19 +175,23 @@ class GameEngine private constructor() {
     private fun generateMap() {
         val random = java.util.Random(gameState.mapSeed.toLong())
 
-        // Create player base
+        // Get actual map dimensions in world coordinates
+        val mapWorldWidth = gameMap.width * TILE_SIZE
+        val mapWorldHeight = gameMap.height * TILE_SIZE
+
+        // Create player base (left side)
         val playerFaction = Faction.createFaction(gameState.playerFaction)
-        val playerBasePos = Vector2.new(200f, MAP_HEIGHT / 2)
+        val playerBasePos = Vector2.new(200f, mapWorldHeight / 2)
         createBase(playerFaction, playerBasePos, PlayerType.HUMAN)
 
-        // Create enemy base (opposite side)
+        // Create enemy base (opposite side, right side)
         val enemyFactionType = getEnemyFaction(gameState.playerFaction)
         val enemyFaction = Faction.createFaction(enemyFactionType)
-        val enemyBasePos = Vector2.new(MAP_WIDTH - 200f, MAP_HEIGHT / 2)
+        val enemyBasePos = Vector2.new(mapWorldWidth - 200f, mapWorldHeight / 2)
         createBase(enemyFaction, enemyBasePos, PlayerType.AI)
 
         // Generate mineral fields
-        generateMineralFields(random)
+        generateMineralFields(random, mapWorldWidth, mapWorldHeight)
 
         // Generate terrain obstacles
         generateTerrain(random)
@@ -212,20 +224,20 @@ class GameEngine private constructor() {
         }
     }
 
-    private fun generateMineralFields(random: java.util.Random) {
-        // Player mineral field
-        addMineralField(Vector2.new(400f, MAP_HEIGHT / 2), 1000)
-        addMineralField(Vector2.new(400f, MAP_HEIGHT / 2 + 100), 1000)
+    private fun generateMineralFields(random: java.util.Random, mapWorldWidth: Float, mapWorldHeight: Float) {
+        // Player mineral field (left side)
+        addMineralField(Vector2.new(400f, mapWorldHeight / 2), 1000)
+        addMineralField(Vector2.new(400f, mapWorldHeight / 2 + 100), 1000)
 
-        // Enemy mineral field
-        addMineralField(Vector2.new(MAP_WIDTH - 400f, MAP_HEIGHT / 2), 1000)
-        addMineralField(Vector2.new(MAP_WIDTH - 400f, MAP_HEIGHT / 2 - 100), 1000)
+        // Enemy mineral field (right side)
+        addMineralField(Vector2.new(mapWorldWidth - 400f, mapWorldHeight / 2), 1000)
+        addMineralField(Vector2.new(mapWorldWidth - 400f, mapWorldHeight / 2 - 100), 1000)
 
         // Neutral mineral fields in middle
         for (i in 0 until 3) {
             for (j in 0 until 2) {
-                val x = MAP_WIDTH / 2 - 150 + i * 150 + random.nextFloat() * 50
-                val y = MAP_HEIGHT / 2 - 100 + j * 200 + random.nextFloat() * 50
+                val x = mapWorldWidth / 2 - 150 + i * 150 + random.nextFloat() * 50
+                val y = mapWorldHeight / 2 - 100 + j * 200 + random.nextFloat() * 50
                 addMineralField(Vector2.new(x, y), 800 + random.nextInt(400))
             }
         }
@@ -591,9 +603,13 @@ class GameEngine private constructor() {
      * Check if position is valid for unit placement
      */
     fun isValidPlacement(position: Vector2, radius: Float): Boolean {
+        // Get actual map dimensions
+        val mapWorldWidth = gameMap.width * TILE_SIZE
+        val mapWorldHeight = gameMap.height * TILE_SIZE
+        
         // Check bounds
-        if (position.x < radius || position.x > MAP_WIDTH - radius ||
-            position.y < radius || position.y > MAP_HEIGHT - radius) {
+        if (position.x < radius || position.x > mapWorldWidth - radius ||
+            position.y < radius || position.y > mapWorldHeight - radius) {
             return false
         }
 
@@ -692,7 +708,12 @@ class GameEngine private constructor() {
     /**
      * Get game map dimensions
      */
-    fun getMapSize(): Vector2 = Vector2.new(MAP_WIDTH, MAP_HEIGHT)
+    fun getMapSize(): Vector2 {
+        if (::gameMap.isInitialized) {
+            return Vector2.new(gameMap.width * TILE_SIZE, gameMap.height * TILE_SIZE)
+        }
+        return Vector2.new(MAP_WIDTH, MAP_HEIGHT)
+    }
 
     /**
      * Handle touch events for HUD and game input
