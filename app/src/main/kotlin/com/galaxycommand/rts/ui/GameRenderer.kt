@@ -157,15 +157,15 @@ class GameRenderer(
     }
 
     /**
-     * Draw background grid
+     * Draw background grid - subtle and clean
      */
     private fun drawGrid(canvas: Canvas) {
-        val gridSize = 50f
+        val gridSize = 100f
         
-        // Draw main grid lines
+        // Draw very subtle grid lines
         gridPaint.color = COLOR_GRID
-        gridPaint.strokeWidth = 1f
-        gridPaint.alpha = 100
+        gridPaint.strokeWidth = 0.5f
+        gridPaint.alpha = 30  // Very subtle, non-distracting
         
         val startX = kotlin.math.floor(renderBounds.left)
         val startY = kotlin.math.floor(renderBounds.top)
@@ -184,24 +184,6 @@ class GameRenderer(
         while (y <= endY) {
             canvas.drawLine(startX, y, endX, y, gridPaint)
             y += gridSize
-        }
-        
-        // Draw major grid lines (every 200 units)
-        val majorGridSize = 200f
-        gridPaint.color = COLOR_GRID
-        gridPaint.strokeWidth = 1f
-        gridPaint.alpha = 180
-        
-        var majorX = kotlin.math.floor(startX / majorGridSize) * majorGridSize
-        while (majorX <= endX) {
-            canvas.drawLine(majorX, startY, majorX, endY, gridPaint)
-            majorX += majorGridSize
-        }
-        
-        var majorY = kotlin.math.floor(startY / majorGridSize) * majorGridSize
-        while (majorY <= endY) {
-            canvas.drawLine(startX, majorY, endX, majorY, gridPaint)
-            majorY += majorGridSize
         }
     }
 

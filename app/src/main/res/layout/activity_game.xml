@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark">
 
-    <!-- Game Surface View -->
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <!-- Top HUD Bar -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/topHudBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#AA000000"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:gravity="center_vertical"
-        android:background="#AA000000">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Resources -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,34 +28,31 @@
                 android:id="@+id/textResources"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Minerals: 50"
                 android:textColor="#00D4FF"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Minerals: 50" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textGas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Gas: 0"
                 android:textColor="#FFCA28"
-                android:textSize="14sp"
-                android:text="Gas: 0" />
-
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Timer (center) -->
         <TextView
             android:id="@+id/textTimer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="00:00"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="00:00" />
+            android:textStyle="bold" />
 
-        <!-- Pause Button -->
         <Button
             android:id="@+id/btnPause"
             android:layout_width="48dp"
@@ -65,77 +61,74 @@
             android:text="II"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
-
     </LinearLayout>
 
-    <!-- FPS Counter (top right) -->
+    <!-- Game Surface View -->
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomHudBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topHudBar" />
+
+    <!-- FPS Counter -->
     <TextView
         android:id="@+id/textFps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="70dp"
         android:layout_marginEnd="8dp"
+        android:text="60 FPS"
         android:textColor="#888888"
         android:textSize="10sp"
-        android:text="60 FPS" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topHudBar" />
 
     <!-- Bottom HUD -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/bottomHudBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:background="#AA000000"
+        android:gravity="bottom"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:gravity="bottom"
-        android:background="#AA000000">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Selection Info (left side) -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/hud_background"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:background="@drawable/hud_background">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textSelectionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="No selection"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:text="No selection" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textSelectionHealth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="HP: 100/100"
                 android:textColor="#00FF00"
                 android:textSize="12sp"
                 android:visibility="gone"
-                android:text="HP: 100/100" />
-
+                tools:visibility="visible"/>
         </LinearLayout>
 
-        <!-- Minimap (right side) -->
         <FrameLayout
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/minimap_background">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:text="@string/minimap"
-                android:textColor="#666666"
-                android:textSize="8sp"
-                android:padding="4dp" />
-
-        </FrameLayout>
-
+            android:background="@drawable/minimap_background" />
     </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
