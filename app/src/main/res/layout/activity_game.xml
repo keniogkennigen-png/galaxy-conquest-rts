@@ -10,48 +10,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Top HUD -->
+    <!-- Top HUD Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="start">
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:background="#AA000000">
 
         <!-- Resources -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/hud_background"
-            android:orientation="horizontal"
-            android:padding="12dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textResources"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:text="M: 50 | G: 0" />
+                android:textColor="#00D4FF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Minerals: 50" />
+
+            <TextView
+                android:id="@+id/textGas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFCA28"
+                android:textSize="14sp"
+                android:text="Gas: 0" />
 
         </LinearLayout>
 
-        <!-- Timer -->
-        <LinearLayout
+        <!-- Timer (center) -->
+        <TextView
+            android:id="@+id/textTimer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/textTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:text="00:00" />
-
-        </LinearLayout>
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="00:00" />
 
         <!-- Pause Button -->
         <Button
@@ -60,57 +63,78 @@
             android:layout_height="48dp"
             android:background="@drawable/button_icon"
             android:text="II"
-            android:textColor="@color/text_primary" />
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-    <!-- FPS Counter -->
+    <!-- FPS Counter (top right) -->
     <TextView
         android:id="@+id/textFps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_margin="16dp"
-        android:textColor="@color/text_hint"
-        android:textSize="12sp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="#888888"
+        android:textSize="10sp"
         android:text="60 FPS" />
 
-    <!-- Minimap Placeholder -->
+    <!-- Bottom HUD -->
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:background="@drawable/minimap_background"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/minimap"
-            android:textColor="@color/text_hint"
-            android:textSize="10sp" />
-
-    </LinearLayout>
-
-    <!-- Selection Info (Bottom Center) -->
-    <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/hud_background"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="bottom"
+        android:background="#AA000000">
 
-        <TextView
-            android:id="@+id/textSelectionInfo"
-            android:layout_width="wrap_content"
+        <!-- Selection Info (left side) -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp"
-            android:text="No selection" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="@drawable/hud_background">
+
+            <TextView
+                android:id="@+id/textSelectionInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:text="No selection" />
+
+            <TextView
+                android:id="@+id/textSelectionHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#00FF00"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:text="HP: 100/100" />
+
+        </LinearLayout>
+
+        <!-- Minimap (right side) -->
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/minimap_background">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:text="@string/minimap"
+                android:textColor="#666666"
+                android:textSize="8sp"
+                android:padding="4dp" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

@@ -29,9 +29,12 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     // UI Elements
     private lateinit var surfaceView: SurfaceView
     private lateinit var resourcesText: TextView
+    private lateinit var gasText: TextView
     private lateinit var timerText: TextView
     private lateinit var fpsText: TextView
     private lateinit var btnPause: Button
+    private lateinit var selectionInfoText: TextView
+    private lateinit var selectionHealthText: TextView
 
     // Game state
     private var playerFaction: FactionType = FactionType.VANGUARD
@@ -138,10 +141,13 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
     }
 
     private fun initUI() {
-        resourcesText = findViewById(R.id.textResources) 
+        resourcesText = findViewById(R.id.textResources)
+        gasText = findViewById(R.id.textGas)
         timerText = findViewById(R.id.textTimer)
         fpsText = findViewById(R.id.textFps)
         btnPause = findViewById(R.id.btnPause)
+        selectionInfoText = findViewById(R.id.textSelectionInfo)
+        selectionHealthText = findViewById(R.id.textSelectionHealth)
 
         // Verify all views are found
         if (resourcesText == null || timerText == null || fpsText == null || btnPause == null) {
@@ -197,9 +203,35 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     private fun updateUI() {
         val state = gameEngine.getGameState()
+        
+        // Update resources
+        val minerals = state.minerals
+        val gas = state.gas
+        
         runOnUiThread {
-            resourcesText.text = "M: ${state.minerals} | G: ${state.gas}"
+            resourcesText.text = "Minerals: $minerals"
+            gasText?.text = "Gas: $gas"
             timerText.text = state.getFormattedTime()
+            
+            // Update selection info
+            val selectedUnit = gameEngine.getAllUnits().values.find { it.isSelected }
+            if (selectedUnit != null) {
+                selectionInfoText?.text = "${selectedUnit.type} (${selectedUnit.faction.name})"
+                selectionHealthText?.visibility = android.view.View.VISIBLE
+                val healthPercent = (selectedUnit.health / selectedUnit.maxHealth * 100).toInt()
+                selectionHealthText?.text = "HP: ${selectedUnit.health.toInt()}/${selectedUnit.maxHealth.toInt()} ($healthPercent%)"
+                
+                // Color based on health
+                val healthColor = when {
+                    healthPercent > 66 -> "#00FF00"  // Green
+                    healthPercent > 33 -> "#FFCA28"  // Yellow  
+                    else -> "#FF4444"  // Red
+                }
+                selectionHealthText?.setTextColor(android.graphics.Color.parseColor(healthColor))
+            } else {
+                selectionInfoText?.text = "No selection"
+                selectionHealthText?.visibility = android.view.View.GONE
+            }
         }
     }
 

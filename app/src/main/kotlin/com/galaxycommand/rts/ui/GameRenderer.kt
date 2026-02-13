@@ -161,6 +161,12 @@ class GameRenderer(
      */
     private fun drawGrid(canvas: Canvas) {
         val gridSize = 50f
+        
+        // Draw main grid lines
+        gridPaint.color = COLOR_GRID
+        gridPaint.strokeWidth = 1f
+        gridPaint.alpha = 100
+        
         val startX = kotlin.math.floor(renderBounds.left)
         val startY = kotlin.math.floor(renderBounds.top)
         val endX = kotlin.math.ceil(renderBounds.right)
@@ -178,6 +184,24 @@ class GameRenderer(
         while (y <= endY) {
             canvas.drawLine(startX, y, endX, y, gridPaint)
             y += gridSize
+        }
+        
+        // Draw major grid lines (every 200 units)
+        val majorGridSize = 200f
+        gridPaint.color = COLOR_GRID
+        gridPaint.strokeWidth = 1f
+        gridPaint.alpha = 180
+        
+        var majorX = kotlin.math.floor(startX / majorGridSize) * majorGridSize
+        while (majorX <= endX) {
+            canvas.drawLine(majorX, startY, majorX, endY, gridPaint)
+            majorX += majorGridSize
+        }
+        
+        var majorY = kotlin.math.floor(startY / majorGridSize) * majorGridSize
+        while (majorY <= endY) {
+            canvas.drawLine(startX, majorY, endX, majorY, gridPaint)
+            majorY += majorGridSize
         }
     }
 
@@ -319,10 +343,18 @@ class GameRenderer(
                 com.galaxycommand.rts.factions.FactionType.SYNODE -> drawProtossUnit(canvas, screenPos, screenRadius, unit, factionColor, isAlly)
             }
 
-            // Draw selection ring
+            // Draw selection ring - thicker and more visible
             if (unit.isSelected) {
-                selectionPaint.color = if (isAlly) COLOR_SELECTION_ALLY else COLOR_SELECTION_ENEMY
-                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 5f, selectionPaint)
+                val selectionColor = if (isAlly) COLOR_SELECTION_ALLY else COLOR_SELECTION_ENEMY
+                selectionPaint.color = selectionColor
+                selectionPaint.strokeWidth = 3f
+                selectionPaint.style = Paint.Style.STROKE
+                // Outer ring
+                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 8f, selectionPaint)
+                // Inner ring  
+                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 3f, selectionPaint)
+                // Reset stroke
+                selectionPaint.strokeWidth = 2f
             }
 
             // Draw health bar
