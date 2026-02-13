@@ -329,13 +329,18 @@ class GameRenderer(
             if (unit.isSelected) {
                 val selectionColor = if (isAlly) COLOR_SELECTION_ALLY else COLOR_SELECTION_ENEMY
                 selectionPaint.color = selectionColor
-                selectionPaint.strokeWidth = 3f
+                selectionPaint.strokeWidth = 5f
                 selectionPaint.style = Paint.Style.STROKE
-                // Outer ring
-                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 8f, selectionPaint)
+                // Outer ring - thicker for visibility
+                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 12f, selectionPaint)
                 // Inner ring  
-                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 3f, selectionPaint)
-                // Reset stroke
+                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 6f, selectionPaint)
+                // Fill with semi-transparent color
+                selectionPaint.style = Paint.Style.FILL
+                selectionPaint.alpha = 30
+                canvas.drawCircle(screenPos.x, screenPos.y, screenRadius + 12f, selectionPaint)
+                // Reset
+                selectionPaint.alpha = 255
                 selectionPaint.strokeWidth = 2f
             }
 

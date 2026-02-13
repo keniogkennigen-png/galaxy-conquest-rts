@@ -271,24 +271,34 @@ class GameActivity : AppCompatActivity(), InputHandler.InputCallback {
 
     // InputHandler.InputCallback implementations
     override fun onSingleTap(worldPosition: Vector2) {
-        // Find any unit at position - larger radius for easier selection
+        // Find any unit at position - larger radius for easier selection on mobile
         val allUnits = gameEngine.getAllUnits().values.filter { it.isAlive }
         
         var closestUnit: com.galaxycommand.rts.entities.Unit? = null
         var closestDistance = Float.MAX_VALUE
         
+        // Increased hit radius significantly for easier selection
+        val hitRadius = 200f
+        
         for (unit in allUnits) {
             val distance = unit.position.distanceTo(worldPosition)
-            if (distance < closestDistance && distance < 100f) {
+            if (distance < closestDistance && distance < hitRadius) {
                 closestDistance = distance
                 closestUnit = unit
             }
         }
         
         if (closestUnit != null) {
-            // Select unit
+            // Select unit - deselect all others first
             gameEngine.getAllUnits().values.forEach { it.isSelected = false }
             closestUnit.isSelected = true
+            // Also select nearby units of same type for easier group selection
+            val nearbyUnits = allUnits.filter { 
+                it.ownerId == closestUnit.ownerId && 
+                it.type == closestUnit.type &&
+                it.position.distanceTo(closestUnit.position) < 100f
+            }
+            nearbyUnits.forEach { it.isSelected = true }
         } else {
             // Check for resource
             val resource = gameEngine.getResourceAtPosition(worldPosition)
